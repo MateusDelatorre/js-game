@@ -1,7 +1,0 @@
-{
-  "name": "js-game",
-  "packageManager": "yarn@3.2.0",
-  "dependencies": {
-    "phaser": "^3.55.2"
-  }
-}

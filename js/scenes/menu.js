@@ -42,7 +42,7 @@ export default class TitleScreen extends Phaser.Scene{
         this.anims.create({
             key: 'test',
             frameRate: 7,
-            frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3}),
+            frames: this.anims.generateFrameNumbers('player', { start: 0, end: 2}),
             repeat: -1
         });
     
