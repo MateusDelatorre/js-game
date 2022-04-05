@@ -1,92 +1,65 @@
-class SceneA extends Phaser.Scene {
+import TitleScreen from "./scenes/menu.js"
 
-    constructor ()
+const total_width = 700//screen.width;//(window.innerWidth > 0) ? window.innerWidth : screen.width;
+const total_height = window.innerHeight;//(window.innerHeight > 0) ? window.innerHeight : screen.height;
+
+//scenes
+var BootScene = new Phaser.Class({
+    Extends: Phaser.Scene,
+    initialize:
+    function BootScene ()
     {
-        super({ key: 'sceneA' });
-    }
-
-    preload ()
+        Phaser.Scene.call(this, { key: 'BootScene' });
+    },
+    preload: function ()
     {
-        this.load.image('face', 'assets/pics/bw-face.png');
-    }
-
-    create ()
+        // load the resources here
+    },
+    create: function ()
     {
-        this.face = this.add.image(400, 300, 'face');
-
-        this.input.manager.enabled = true;
-
-        this.input.once('pointerdown', function () {
-
-            this.scene.start('sceneB');
-
-        }, this);
+        //this.scene.start('WorldScene');
+        this.scene.start('TitleScreen');
     }
+});
 
-}
+//Main menu
 
-class SceneB extends Phaser.Scene {
 
-    constructor ()
+var WorldScene = new Phaser.Class({
+    Extends: Phaser.Scene,
+    initialize:
+    function WorldScene ()
     {
-        super({ key: 'sceneB' });
-    }
-
-    preload ()
+        Phaser.Scene.call(this, { key: 'WorldScene' });
+    },
+    preload: function ()
     {
-        this.load.image('arrow', 'assets/sprites/longarrow.png');
-    }
-
-    create ()
+        
+    },
+    create: function ()
     {
-        this.arrow = this.add.sprite(400, 300, 'arrow').setOrigin(0, 0.5);
-
-        this.input.once('pointerdown', function (event) {
-
-            this.scene.start('sceneC');
-
-        }, this);
+        // create your world here
+        //this.add.image(400, 300, 'map');
     }
-
-    update ()
-    {
-        this.arrow.rotation += 0.01;
-    }
-
-}
-
-class SceneC extends Phaser.Scene {
-
-    constructor ()
-    {
-        super({ key: 'sceneC' });
-    }
-
-    preload ()
-    {
-        this.load.image('mech', 'assets/pics/titan-mech.png');
-    }
-
-    create ()
-    {
-        this.add.sprite(Phaser.Math.Between(300, 600), 300, 'mech');
-
-        this.input.once('pointerdown', function (event) {
-
-            this.scene.start('sceneA');
-
-        }, this);
-    }
-
-}
-
+});
 var config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    backgroundColor: '#000000',
-    parent: 'phaser-example',
-    scene: [ SceneA, SceneB, SceneC ]
+    parent: 'content',
+    width: 670,
+    height: 290,
+    zoom: 2,
+    pixelArt: true,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 }
+        }
+    },
+    scene: [
+        BootScene,
+        WorldScene,
+        TitleScreen
+    ]
 };
-
-var game = new Phaser.Game(config);
+let game = new Phaser.Game(config);
+console.log(total_height)
