@@ -1,4 +1,5 @@
-import TitleScreen from "./scenes/menu.js"
+import TitleScreen from "./scenes/menu.js";
+import TestWorld from "./scenes/test.js";
 
 const total_width = 700//screen.width;//(window.innerWidth > 0) ? window.innerWidth : screen.width;
 const total_height = window.innerHeight;//(window.innerHeight > 0) ? window.innerHeight : screen.height;
@@ -19,31 +20,11 @@ var BootScene = new Phaser.Class({
     {
         //this.scene.start('WorldScene');
         this.scene.start('TitleScreen');
-    }
-});
-
-//Main menu
-
-
-var WorldScene = new Phaser.Class({
-    Extends: Phaser.Scene,
-    initialize:
-    function WorldScene ()
-    {
-        Phaser.Scene.call(this, { key: 'WorldScene' });
-    },
-    preload: function ()
-    {
-        
-    },
-    create: function ()
-    {
-        // create your world here
-        //this.add.image(400, 300, 'map');
+        //this.scene.start('TestWorld');
     }
 });
 var config = {
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL,
     parent: 'content',
     width: 670,
     height: 290,
@@ -57,8 +38,8 @@ var config = {
     },
     scene: [
         BootScene,
-        WorldScene,
-        TitleScreen
+        TitleScreen,
+        TestWorld
     ]
 };
 let game = new Phaser.Game(config);
