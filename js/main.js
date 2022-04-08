@@ -15,6 +15,7 @@ var BootScene = new Phaser.Class({
     preload: function ()
     {
         // load the resources here
+        this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
     },
     create: function ()
     {
