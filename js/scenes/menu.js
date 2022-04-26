@@ -5,13 +5,15 @@ export default class TitleScreen extends Phaser.Scene{
         super('TitleScreen');
     }
     preload(){
+        //Load the custom font
         this.load.spritesheet('menuButton', 'assets/buttons_menu.png', { frameWidth: 300, frameHeight: 50 });
     }
     create(){
+        //This nexts lines will create the animation effect to be called later on
         this.anims.create({
-            key: 'mouseover',
-            frameRate: 7,
-            frames: this.anims.generateFrameNumbers('menuButton', { frames: [0,1]}),
+            key: 'mouseover',//define the name of the animation
+            frameRate: 7,//The fps of the animation
+            frames: this.anims.generateFrameNumbers('menuButton', { frames: [0,1]}),//The frames that will be changed from left to right
             repeat: 0
         });
         this.anims.create({
@@ -27,10 +29,9 @@ export default class TitleScreen extends Phaser.Scene{
             repeat: 0
         });
 
-        //this.button1 = new Button(330, 100, 'menuButton', 0);
+        //Add a button passing as parameters a Sprite gameObject
         this.button1 = this.add.existing(new MenuButton(this, 330, 100, function(scene) {
-            console.log("func");
-            scene.scene.start('TestWorld');
+            scene.scene.start('TestWorld');//starts the a scene
         }));
         this.button2 = this.add.existing(new MenuButton(this, 330, 160, function () {
             //this.scene.start('TestWorld');
@@ -40,7 +41,6 @@ export default class TitleScreen extends Phaser.Scene{
         }));
         
         var add = this.add;
-        var input = this.input;
 
         WebFont.load({
         custom: {
@@ -61,7 +61,7 @@ export default class TitleScreen extends Phaser.Scene{
         
     }
 }
-
+//A custom class to make the button used in menu
 class MenuButton extends Phaser.GameObjects.Sprite {
 
     constructor (scene, x, y, onClicked)
