@@ -1,3 +1,4 @@
+/* Make the custom font work, also don't ask why :0 */
 @font-face {
     font-family: CompassGold;
     src: url('../assets/fonts/CompassGold.ttf');
