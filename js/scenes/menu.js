@@ -31,7 +31,7 @@ export default class TitleScreen extends Phaser.Scene{
 
         //Add a button passing as parameters a Sprite gameObject
         this.button1 = this.add.existing(new MenuButton(this, 330, 100, function(scene) {
-            scene.scene.start('TestWorld');//starts the a scene
+            scene.scene.start('Village');//starts the a scene
         }));
         this.button2 = this.add.existing(new MenuButton(this, 330, 160, function () {
             //this.scene.start('TestWorld');
@@ -72,7 +72,6 @@ class MenuButton extends Phaser.GameObjects.Sprite {
         this.setPosition(x, y);
         this.setFrame(0);
         this.setInteractive();
-        console.log(onClicked);
         this.on('pointerover', function (pointer) {
             this.anims.play('mouseover', true);
             //this.setTint(0xff0000);

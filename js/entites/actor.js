@@ -1,12 +1,14 @@
+import ActorData from "./actorData.js";
+
 export default class Actor extends Phaser.Physics.Arcade.Sprite{
-    damage;
-    hp;
+    data;
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
         //I will say before hand that I don't know if this next two lines must be there
         scene.add.existing(this);//Add this Sprite to the scene
         scene.physics.add.existing(this);//Add this Sprite to the Physics manager of the scene
         this.body.setCollideWorldBounds(true);//make it collider to the end of the map
+        this.data = new ActorData();
     }
 
     //This function make things appear on the screen
@@ -24,24 +26,36 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite{
     }
 
     setDamage(damage){
-        this.damage = damage;
+        this.data.damage = damage;
     }
 
     getDamage(){
-        return this.damage;
+        return this.data.damage;
+    }
+
+    getData(){
+        return this.data;
     }
 
     getHP(){
-        return this.hp;
+        return this.data.hp;
+    }
+
+    setHP(hp){
+        this.data.hp = hp;
+    }
+
+    setData(data){
+        this.data = data;
     }
 
     sufferDamage(damage){
-        this.hp -= damage;
+        this.data.hp -= damage;
         if (this.isDead()) this.die();
     }
 
     isDead(){
-        if (this.hp < 1) return true;
+        if (this.data.hp < 1) return true;
         return false;
     }
 

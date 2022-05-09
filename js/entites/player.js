@@ -1,9 +1,7 @@
 import Actor from './actor.js';
 export default class Player extends Actor{
-    weaponKey;
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
-        this.hp = 0;
         //this.flashlight = flashlight;
     }
 
