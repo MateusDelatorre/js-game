@@ -2,7 +2,7 @@
 import TitleScreen from "./scenes/menu.js";
 import TestWorld from "./scenes/test.js";
 import Village from "./scenes/village.js";
-import Level1 from "./scenes/Level1.js";
+import RoadToVillage from "./scenes/RoadToVillage.js";
 
 //ignore this I was just trying something
 const total_width = 700//screen.width;//(window.innerWidth > 0) ? window.innerWidth : screen.width;
@@ -26,8 +26,21 @@ var BootScene = new Phaser.Class({
         //this.scene.start('WorldScene');
         //this.scene.start('TitleScreen');
         //this.scene.start('TestWorld');
-        //this.scene.start('Village');
-        this.scene.start('Level1');
+        let data = {
+
+        }
+        // data.LevelsData.Village = {
+        //     name: 'Village'
+        // };
+        // data.LevelsData.Village.name = 'teste';
+        // if (data.LevelsData.Village == null){
+        //     data.LevelsData.Village = {
+        //         name: 'Village'
+        //     };
+        // }
+        //console.log(data.LevelsData.Village.name);
+        //this.scene.start('Village', {LevelsData: { Village: {name: 'Village'}}, playerData: {}});
+        this.scene.start('RoadToVillage');
     }
 });
 
@@ -52,8 +65,8 @@ var config = {
         TitleScreen,
         TestWorld,
         Village,
-        Level1
+        RoadToVillage
     ]//All the scenes you will use must be here so the Phase Scene Manager can call then
 };
 let game = new Phaser.Game(config);//create a new game
-//console.log(total_height)
+console.log(config);
