@@ -5,12 +5,16 @@ import Enemies from "../entites/enemies.js";
 import Goblin from "../entites/goblin.js";
 import Skeleton from "../entites/skeleton.js";
 
-export default class Level1 extends Phaser.Scene{
+const equals = (a, b) =>
+    a.length === b.length &&
+    a.every((v, i) => v === b[i]);
+
+export default class RoadToVillage extends Phaser.Scene{
     constructor(){
-        super('Level1');
+        super('RoadToVillage');
     }
-    init(data){
-        this.data = data;
+    init(){
+        this.storage = JSON.parse(localStorage.getItem("data"));
     }
     preload(){
         this.load.tilemapTiledJSON('map1', 'assets/map/JsonMap/Level1.json');
@@ -22,12 +26,23 @@ export default class Level1 extends Phaser.Scene{
         this.load.spritesheet('arrow', 'assets/weapons/arrow.png', { frameWidth: 21, frameHeight: 7 });
     }
     create(){
+        this.createData();
         this.addMap();
         this.createEntites();
         this.enemiesSpawn();
         this.addCollisions();
         this.addEvents();
         this.mapLevel1();
+
+        this.test_text = this.add.text(0, 0, this.storage.RoadToVillage.goblins_alive.length, {
+            backgroundColor: '#4287f5',
+            padding: {
+                left: 5,
+                top: 5
+            }
+        }).setVisible(true)
+            .setScrollFactor(0);
+
         this.cursors = this.input.keyboard.createCursorKeys();
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.startFollow(this.player);
@@ -41,9 +56,44 @@ export default class Level1 extends Phaser.Scene{
         this.player.Update();
         if (this.cursors.space.isDown)
         {
-            //this.CollsionLevel = 2;
-            //this.mapLevel2();
-            this.scene.start('Village', {player: this.player});
+            //this.scene.start('Village', {player: this.player});
+            localStorage.setItem("data",  JSON.stringify(this.storage));
+            console.log("Salvando data");
+        }
+    }
+
+    createData(){
+
+        if (this.storage == null){
+            this.storage = {
+                RoadToVillage: {}
+            };
+
+        }
+        if (Object.keys(this.storage.RoadToVillage).length === 0){// || this.storage.RoadToVillage.created == 0
+            this.storage.RoadToVillage = {
+                enemiesTotal: 3,
+                enemiesKilled: 0,
+                enemiesAlive: 3,
+                levelCleared: false
+            };
+            let temp = [];
+            for (let i = 0; i < 24; i++){
+                temp.push([i, 1]);
+            }
+            this.storage.RoadToVillage.goblins_alive = temp;
+        }
+
+
+
+    }
+
+    SomeoneDied(who){
+        if (who.name == 'goblin'){
+            this.goblin_alive--;
+            this.test_text.setText(this.storage.RoadToVillage.goblins_alive.length);
+            this.storage.RoadToVillage.goblins_alive[who.index] = [who.index, 0];
+            console.log(who.index);
         }
     }
 
@@ -55,22 +105,29 @@ export default class Level1 extends Phaser.Scene{
     }
 
     enemiesSpawn(){
-        this.goblins.Spawn(60, 110, 'goblin', 3);
-        this.goblins.Spawn(80, 110, 'goblin', 3);
-        this.goblins.Spawn(100, 110, 'goblin', 3);
-        this.goblins.Spawn(120, 110, 'goblin', 3);
-        this.goblins.Spawn(60, 90, 'goblin', 3);
-        this.goblins.Spawn(60, 70, 'goblin', 3);
-        this.goblins.Spawn(60, 50, 'goblin', 3);
-        this.goblins.Spawn(80, 50, 'goblin', 3);
-        this.goblins.Spawn(100, 50, 'goblin', 3);
-        this.goblins.Spawn(120, 50, 'goblin', 3);
-        this.goblins.Spawn(120, 70, 'goblin', 3);
-        this.goblins.Spawn(120, 90, 'goblin', 3);
+        this.GoblinLoopSpawn(0, 60, 50, 4, 20);
+        this.GoblinLoopSpawn(4, 80, 50, 2, 60);
+        this.GoblinLoopSpawn(6, 100, 50, 2, 60);
+        this.GoblinLoopSpawn(8, 120, 50, 4, 20);
+
+        this.GoblinLoopSpawn(12, 660, 50, 4, 20);
+        this.GoblinLoopSpawn(16, 680, 50, 2, 60);
+        this.GoblinLoopSpawn(18, 700, 50, 2, 60);
+        this.GoblinLoopSpawn(20, 720, 50, 4, 20);
+
         this.skeltons.Spawn(100, 90, 'skelet', 3);
-        this.skeltons.Spawn(80, 90, 'skelet', 3);
-        this.skeltons.Spawn(80, 70, 'skelet', 3);
-        this.skeltons.Spawn(100, 70, 'skelet', 3);
+        this.skeltons.Spawn(700, 90, 'skelet', 3);
+        // this.skeltons.Spawn(80, 90, 'skelet', 3);
+        // this.skeltons.Spawn(80, 70, 'skelet', 3);
+        // this.skeltons.Spawn(100, 70, 'skelet', 3);
+    }
+
+    GoblinLoopSpawn(index, x, y, amount, y_increment){
+        for(let i = 0; i < amount; index++, y += y_increment, i++){
+            if(equals(this.storage.RoadToVillage.goblins_alive[index], [index, 1])){
+                this.goblins.Spawn(x, y, 'goblin', 3, index, 'goblin');
+            }
+        }
     }
 
     addCollisions(){
@@ -108,5 +165,9 @@ export default class Level1 extends Phaser.Scene{
     mapLevel1(){
         //set others levels invisible
         this.ground2.setVisible(false);
+    }
+
+    customEvents(){
+
     }
 }

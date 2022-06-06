@@ -4,9 +4,21 @@ export default class Goblin extends Enemy{
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
         this.setHP(100);
+        this.AITyipe = 0;
+        this.elem = document.createElement('div');
+        this.elem.addEventListener('panic', function (es) {
+            this.AITyipe = 1;
+            console.log("evento");
+        });
     }
 
     runAI(player){
+        if (this.AITyipe == 0){
+            this.normalAI(player);
+        }
+    }
+
+    normalAI(player){
         let distance = Phaser.Math.Distance.Between(player.x, player.y, this.x, this.y);
         if (Math.abs(distance) < 200) {
             this.scene.physics.moveToObject(this, player, 10);
@@ -19,6 +31,11 @@ export default class Goblin extends Enemy{
         super.preUpdate(time, delta);
         this.runAI(this.scene.player);
         //this.scene.physics.moveToObject(this, this.scene.player, 10);//make this object move in direction of the other object in the given speed
+    }
+
+    die(){
+        super.die();
+        this.scene.SomeoneDied(this);
     }
 
 }

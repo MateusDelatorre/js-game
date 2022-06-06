@@ -9,6 +9,18 @@ export default class Village extends Phaser.Scene{
     constructor(){
         super('Village');
     }
+
+    init(data){
+        // this.level_data = data;
+        // console.log(data);
+        // if (data.LevelsData.Village != null){
+        //     //this.data = data.LevelsData.Village
+        //     this.data;
+        //     console.log(this.data);
+        // }
+
+    }
+
     preload(){
         this.load.image('Outdoors-Tileset', 'assets/map/16x16-Outdoors-Tileset.png');
         this.load.image('162-tileset', 'assets/map/162-tileset-spritesheet.png');
@@ -100,8 +112,8 @@ export default class Village extends Phaser.Scene{
     createEntites() {
         this.player = new Player(this, 50, 100, 'player', 0);
         this.arrows = new Bullets(this, Projectile, 20);
-        this.goblins = new Enemies(this, Goblin);
-        this.skeltons = new Enemies(this, Skeleton);
+        // this.goblins = new Enemies(this, Goblin);
+        // this.skeltons = new Enemies(this, Skeleton);
     }
 
     spawnEnimes(){
@@ -131,15 +143,15 @@ export default class Village extends Phaser.Scene{
         //     this.physics.add.collider(skelton, this.trees2);
         // });
 
-        this.physics.add.collider(this.goblins, this.arrows, (goblin, arrow) => {
-            goblin.sufferDamage(arrow.getDamage());
-            arrow.die();
-        });
-
-        this.physics.add.collider(this.skeltons, this.arrows, (skelton, arrow) => {
-            skelton.sufferDamage(arrow.getDamage());
-            arrow.die();
-        });
+        // this.physics.add.collider(this.goblins, this.arrows, (goblin, arrow) => {
+        //     goblin.sufferDamage(arrow.getDamage());
+        //     arrow.die();
+        // });
+        //
+        // this.physics.add.collider(this.skeltons, this.arrows, (skelton, arrow) => {
+        //     skelton.sufferDamage(arrow.getDamage());
+        //     arrow.die();
+        // });
     }
 
     addEvents() {
@@ -152,12 +164,12 @@ export default class Village extends Phaser.Scene{
     }
 
     Level1Collisions(){
-        this.physics.world.collide(this.trees1, this.goblins);
-        this.physics.world.collide(this.trees1, this.skeltons);
+        // this.physics.world.collide(this.trees1, this.goblins);
+        // this.physics.world.collide(this.trees1, this.skeltons);
         this.physics.world.collide(this.trees1, this.player);
 
-        this.physics.world.collide(this.houses1, this.goblins);
-        this.physics.world.collide(this.houses1, this.skeltons);
+        // this.physics.world.collide(this.houses1, this.goblins);
+        // this.physics.world.collide(this.houses1, this.skeltons);
         this.physics.world.collide(this.houses1, this.player);
     }
 
@@ -183,7 +195,7 @@ export default class Village extends Phaser.Scene{
         {
             this.CollsionLevel = 2;
             this.mapLevel2();
-            this.scene.start('Level1', {playerData: this.player.data});
+            this.scene.start('RoadToVillage', {playerData: this.player.data});
         }
     }
 }
