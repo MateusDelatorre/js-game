@@ -29,19 +29,11 @@ export default class RoadToVillage extends Phaser.Scene{
         this.createData();
         this.addMap();
         this.createEntites();
+        this.createUI();
         this.enemiesSpawn();
         this.addCollisions();
         this.addEvents();
         this.mapLevel1();
-
-        this.test_text = this.add.text(0, 0, this.storage.RoadToVillage.goblins_alive.length, {
-            backgroundColor: '#4287f5',
-            padding: {
-                left: 5,
-                top: 5
-            }
-        }).setVisible(true)
-            .setScrollFactor(0);
 
         this.cursors = this.input.keyboard.createCursorKeys();
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
@@ -66,11 +58,9 @@ export default class RoadToVillage extends Phaser.Scene{
 
         if (this.storage == null){
             this.storage = {
-                RoadToVillage: {}
+                RoadToVillage: {},
+                Player: {}
             };
-
-        }
-        if (Object.keys(this.storage.RoadToVillage).length === 0){// || this.storage.RoadToVillage.created == 0
             this.storage.RoadToVillage = {
                 enemiesTotal: 3,
                 enemiesKilled: 0,
@@ -83,9 +73,7 @@ export default class RoadToVillage extends Phaser.Scene{
             }
             this.storage.RoadToVillage.goblins_alive = temp;
         }
-
-
-
+        //if (Object.keys(this.storage.RoadToVillage).length === 0){// || this.storage.RoadToVillage.created == 0
     }
 
     SomeoneDied(who){
@@ -102,6 +90,16 @@ export default class RoadToVillage extends Phaser.Scene{
         this.arrows = new Bullets(this, Projectile, 20);
         this.goblins = new Enemies(this, Goblin);
         this.skeltons = new Enemies(this, Skeleton);
+    }
+
+    createUI() {
+        this.test_text = this.add.text(0, 0, this.storage.RoadToVillage.goblins_alive.length, {
+            backgroundColor: '#4287f5',
+            padding: {
+                left: 5,
+                top: 5
+            }
+        }).setVisible(true).setScrollFactor(0);
     }
 
     enemiesSpawn(){
