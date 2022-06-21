@@ -1,5 +1,3 @@
-import ActorData from "./actorData.js";
-
 export default class Actor extends Phaser.Physics.Arcade.Sprite{
     data;
     constructor(scene, x, y, texture, frame) {
@@ -8,7 +6,7 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite{
         scene.add.existing(this);//Add this Sprite to the scene
         scene.physics.add.existing(this);//Add this Sprite to the Physics manager of the scene
         this.body.setCollideWorldBounds(true);//make it collider to the end of the map
-        this.data = new ActorData();
+        this.data = {};
     }
 
     //This function make things appear on the screen

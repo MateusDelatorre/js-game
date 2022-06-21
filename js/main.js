@@ -16,19 +16,17 @@ var BootScene = new Phaser.Class({
     {
         Phaser.Scene.call(this, { key: 'BootScene' });//Just don't ask, really
     },
-    preload: function ()
-    {
+    preload: function (){
         // load the resources here
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
     },
-    create: function ()
-    {
+    create: function (){
         //this.scene.start('WorldScene');
         //this.scene.start('TitleScreen');
         //this.scene.start('TestWorld');
-        let data = {
-
-        }
+        // let data = {
+        //
+        // }
         // data.LevelsData.Village = {
         //     name: 'Village'
         // };
@@ -39,8 +37,8 @@ var BootScene = new Phaser.Class({
         //     };
         // }
         //console.log(data.LevelsData.Village.name);
-        //this.scene.start('Village', {LevelsData: { Village: {name: 'Village'}}, playerData: {}});
-        this.scene.start('RoadToVillage');
+        this.scene.start('Village');
+        //this.scene.start('RoadToVillage');
     }
 });
 

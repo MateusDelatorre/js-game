@@ -44,6 +44,7 @@ export default class Player extends Actor{
     }
 
     Update(){
+
         this.Move();
         // this.Flashlight()
     }

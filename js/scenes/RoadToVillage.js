@@ -55,7 +55,7 @@ export default class RoadToVillage extends Phaser.Scene{
     }
 
     createData(){
-
+        //TODO: localStorage will be crated on menu screen it shouldn't be null here. Probably redundant check
         if (this.storage == null){
             this.storage = {
                 RoadToVillage: {},
