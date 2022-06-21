@@ -22,19 +22,12 @@ export default class NPC extends Actor{
 
     Talk(scene){
         //this.graphics = scene.add.graphics({ lineStyle: { width: 2, color: 0x0000aa }, fillStyle: { color: 0x00aa00} })
-        if(this.subTalk >= Dialog.dialogues[scene.storage.Village.wizardTalk][this.subTalk].length){
-            scene.isTalking = false;
-            scene.events.off('keydown-SPACE', () => {
-                this.SelectChoice();
-            });
-            return;
-        }
         if (this.subTalk == 0){
             this.createText();
             console.log("Criou")
+            console.log("lengt" + Dialog.dialogues[this.scene.storage.Village.wizardTalk].length);
             scene.input.keyboard.on('keydown-SPACE', () => {
                 this.SelectChoice();
-                this.Talk(this.scene);
             });
         }
         scene.isTalking = true;
@@ -73,8 +66,8 @@ export default class NPC extends Actor{
                 top: 5
             }
         });
-        if (Dialog.dialogues[this.scene.storage.Village.wizardTalk][this.subTalk].response != null ||
-            Dialog.dialogues[this.scene.storage.Village.wizardTalk][this.subTalk].response != {} ||
+        if (Dialog.dialogues[this.scene.storage.Village.wizardTalk][this.subTalk].response != null &&
+            Dialog.dialogues[this.scene.storage.Village.wizardTalk][this.subTalk].response != {} &&
             Dialog.dialogues[this.scene.storage.Village.wizardTalk][this.subTalk].response != undefined){
             this.choice += change;
             if (this.choice <= 1){
@@ -88,23 +81,32 @@ export default class NPC extends Actor{
                 return;
             }
         }
-
+        this.drawChoice();
     }
 
     ShowDialog(txt){
-        console.log(this.text[0]);
         this.text[0].setText(txt);
     }
 
     showResponse(response) {
-        console.log(response);
         for (let i = 0; i < response.length; i++){
             this.text[i+1].setText(response[i]);
         }
     }
 
     SelectChoice() {
+        console.log("subtalk: " + this.subTalk);
         this.subTalk++;
+        if(this.subTalk >= Dialog.dialogues[this.scene.storage.Village.wizardTalk].length){
+            this.scene.isTalking = false;
+            this.scene.events.off('keydown-SPACE', () => {
+                this.SelectChoice();
+            });
+
+            return;
+        }else{
+            this.Talk(this.scene);
+        }
     }
 
     createText() {
@@ -127,6 +129,5 @@ export default class NPC extends Actor{
                 fontSize: 10
             }).setVisible(true).setScrollFactor(0);
         }
-        console.log("text created");
     }
 }
