@@ -101,7 +101,9 @@ export default class NPC extends Actor{
             this.scene.events.off('keyup-SPACE', () => {
                 this.SelectChoice();
             });
-
+            this.scene.wizardTalk++;
+            this.subTalk = 0;
+            this.stopTalk();
             return;
         }else{
             this.Talk(this.scene);
@@ -109,23 +111,25 @@ export default class NPC extends Actor{
     }
 
     createText() {
-        this.text[0] = this.scene.add.text(this.x, this.y, "", {
+        this.text[0] = this.scene.add.text(0, 200, "", {
             backgroundColor: '#4287f5',
             padding: {
                 left: 5,
                 top: 5
             },
-            fontSize: 10
+            fontSize: 10,
+            wordWrapWidth: {width: 200}
         }).setVisible(true).setScrollFactor(0);
         let aux = 0
-        for (let i = 1; i < 4; i++, aux += 40){
-            this.text[i] = this.scene.add.text(this.x + aux, this.y + 25, "", {
+        for (let i = 1; i < 3; i++, aux += 40){
+            this.text[i] = this.scene.add.text(0 + aux, 225, "", {
                 backgroundColor: '#4287f5',
                 padding: {
                     left: 5,
                     top: 5
                 },
-                fontSize: 10
+                fontSize: 10,
+                wordWrapWidth: {width: 200}
             }).setVisible(true).setScrollFactor(0);
         }
     }
