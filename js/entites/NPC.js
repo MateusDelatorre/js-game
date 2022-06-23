@@ -5,7 +5,7 @@ export default class NPC extends Actor{
     data;
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
-        this.text = [4];
+        this.text = [3];
         this.graphics = null;
         this.choice = 1;
         this.subTalk = 0;
@@ -26,7 +26,7 @@ export default class NPC extends Actor{
             this.createText();
             console.log("Criou")
             console.log("lengt" + Dialog.dialogues[this.scene.storage.Village.wizardTalk].length);
-            scene.input.keyboard.on('keydown-SPACE', () => {
+            scene.input.keyboard.on('keyup-SPACE', () => {
                 this.SelectChoice();
             });
         }
@@ -95,11 +95,10 @@ export default class NPC extends Actor{
     }
 
     SelectChoice() {
-        console.log("subtalk: " + this.subTalk);
         this.subTalk++;
         if(this.subTalk >= Dialog.dialogues[this.scene.storage.Village.wizardTalk].length){
             this.scene.isTalking = false;
-            this.scene.events.off('keydown-SPACE', () => {
+            this.scene.events.off('keyup-SPACE', () => {
                 this.SelectChoice();
             });
 
@@ -130,4 +129,18 @@ export default class NPC extends Actor{
             }).setVisible(true).setScrollFactor(0);
         }
     }
+
+    startTalk() {
+        for (let i = 0; i < 3; i++) {
+            this.scene.text[i].setVisible(true);
+        }
+    }
+
+    stopTalk(){
+        for (let i = 0; i < 3; i++){
+            this.scene.text[i].setVisible(false);
+        }
+    }
+
+
 }
