@@ -156,6 +156,7 @@ export default class Village extends Phaser.Scene{
         this.physics.add.collider(this.player, this.next_level, () => {
             this.events.off('pointerdown');
             this.events.off('worldbounds');
+            localStorage.setItem("data", JSON.stringify(this.storage));
             this.scene.start('RoadToVillage');
         });
 
