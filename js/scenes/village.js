@@ -5,12 +5,14 @@ import Projectile from '../entites/projectile.js';
 import Bullets from "../entites/bullets.js";
 import Skeleton from "../entites/skeleton.js";
 import Goblin from "../entites/goblin.js";
+import NPC from "../entites/NPC.js";
 export default class Village extends Phaser.Scene{
     constructor(){
         super('Village');
     }
 
     init(data){
+        this.storage = JSON.parse(localStorage.getItem("data"));
         // this.level_data = data;
         // console.log(data);
         // if (data.LevelsData.Village != null){
@@ -29,10 +31,12 @@ export default class Village extends Phaser.Scene{
         this.load.tilemapTiledJSON('map', 'assets/map/JsonMap/village.json');
         this.load.spritesheet('player', 'assets/player/texture.png', { frameWidth: 15, frameHeight: 20 });
         this.load.spritesheet('goblin', 'assets/enemies/big-demon.png', { frameWidth: 22, frameHeight: 31 });
+        this.load.spritesheet('wizzard', 'assets/entites/wizzard.png', { frameWidth: 17, frameHeight: 10 });
         this.load.spritesheet('skeleton', 'assets/enemies/big-zombie.png', { frameWidth: 22, frameHeight: 31 });
         this.load.spritesheet('arrow', 'assets/weapons/arrow.png', { frameWidth: 21, frameHeight: 7 });
     }
     create(){
+        this.createData();
         this.addMap();
         //this.player.setCollideWorldBounds(true);
         this.mapLevel1();
@@ -48,7 +52,29 @@ export default class Village extends Phaser.Scene{
         this.player.CreateAnims();
         this.addEvents();
         this.player.setWeapon('arrow');
+        this.isTalking = false;
         //this.scene.run('Level1', this.player);
+    }
+
+    createData(){
+        //TODO: this.storage will be checked for null on menu, if it is null here something is not right
+        if (this.storage == null){
+            this.storage = {
+                Village: {},
+                Player: {}
+            };
+            this.storage.Village = {
+                wizardTalk: 0
+            };
+        }else {
+            if(this.storage.Village == null){
+                this.storage.Village = {
+                    wizardTalk: 0
+                };
+            }
+        }
+
+        //if (Object.keys(this.storage.RoadToVillage).length === 0){// || this.storage.RoadToVillage.created == 0
     }
 
     //This class add a map to the game. Ps.: I don't know what all that code does and now I'm too afraid to ask :0
@@ -112,6 +138,9 @@ export default class Village extends Phaser.Scene{
     createEntites() {
         this.player = new Player(this, 50, 100, 'player', 0);
         this.arrows = new Bullets(this, Projectile, 20);
+        this.npc = new NPC(this, 200, 200, 'wizzard', 0);
+        this.npc.setPushable(false);
+        //this.npc.setImmovable(true);
         // this.goblins = new Enemies(this, Goblin);
         // this.skeltons = new Enemies(this, Skeleton);
     }
@@ -152,6 +181,10 @@ export default class Village extends Phaser.Scene{
         //     skelton.sufferDamage(arrow.getDamage());
         //     arrow.die();
         // });
+
+        this.physics.add.collider(this.npc, this.player, (npc, player) => {
+            npc.Talk(this);
+        });
     }
 
     addEvents() {
@@ -184,18 +217,21 @@ export default class Village extends Phaser.Scene{
     }
 
     update(){
-        this.player.Update();
+        if (this.isTalking == false){
+            this.player.Update();
+        }else{
+            this.npc.Capturekeys();
+        }
         if (this.CollsionLevel === 1){
             this.Level1Collisions();
 
-        }else {
+        }else{
             this.Level2Collisions();
         }
-        if (this.cursors.space.isDown)
-        {
-            this.CollsionLevel = 2;
-            this.mapLevel2();
-            this.scene.start('RoadToVillage', {playerData: this.player.data});
-        }
+        // if (this.cursors.space.isDown){
+        //     this.CollsionLevel = 2;
+        //     this.mapLevel2();
+        //     this.scene.start('RoadToVillage', {playerData: this.player.data});
+        // }
     }
 }
