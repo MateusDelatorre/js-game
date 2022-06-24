@@ -142,7 +142,7 @@ export default class NPC extends Actor{
 
     stopTalk(){
         for (let i = 0; i < 3; i++){
-            this.scene.text[i].setVisible(false);
+            this.text[i].setVisible(false);
         }
     }
 
