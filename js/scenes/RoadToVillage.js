@@ -26,7 +26,6 @@ export default class RoadToVillage extends Phaser.Scene{
         this.load.spritesheet('arrow', 'assets/weapons/arrow.png', { frameWidth: 21, frameHeight: 7 });
     }
     create(){
-        this.createData();
         this.addMap();
         this.createEntites();
         this.createUI();
@@ -52,29 +51,8 @@ export default class RoadToVillage extends Phaser.Scene{
             // localStorage.setItem("data", JSON.stringify(this.storage));
             // console.log("Salvando data");
             //console.log(this.player.x);
+            //console.log(this.player.y);
         }
-    }
-
-    createData(){
-        //TODO: localStorage will be crated on menu screen it shouldn't be null here. Probably redundant check
-        if (this.storage == null){
-            this.storage = {
-                RoadToVillage: {},
-                Player: {}
-            };
-            this.storage.RoadToVillage = {
-                enemiesTotal: 3,
-                enemiesKilled: 0,
-                enemiesAlive: 3,
-                levelCleared: false
-            };
-            let temp = [];
-            for (let i = 0; i < 24; i++){
-                temp.push([i, 1]);
-            }
-            this.storage.RoadToVillage.goblins_alive = temp;
-        }
-        //if (Object.keys(this.storage.RoadToVillage).length === 0){// || this.storage.RoadToVillage.created == 0
     }
 
     SomeoneDied(who){
@@ -142,6 +120,8 @@ export default class RoadToVillage extends Phaser.Scene{
         this.physics.add.collider(this.player, this.next_level, () => {
             this.events.off('pointerdown');
             this.events.off('worldbounds');
+            this.storage.Player.spawn_x = 558;
+            this.storage.Player.spawn_y = 29;
             localStorage.setItem("data", JSON.stringify(this.storage));
             this.scene.start('Village');
         });
