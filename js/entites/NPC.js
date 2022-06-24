@@ -2,7 +2,6 @@ import Actor from "./actor.js";
 import Dialog from "../../assets/dialogues/wizzard.js";
 
 export default class NPC extends Actor{
-    data;
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
         this.text = [3];

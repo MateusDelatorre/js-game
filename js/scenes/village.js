@@ -11,16 +11,8 @@ export default class Village extends Phaser.Scene{
         super('Village');
     }
 
-    init(data){
+    init(){
         this.storage = JSON.parse(localStorage.getItem("data"));
-        // this.level_data = data;
-        // console.log(data);
-        // if (data.LevelsData.Village != null){
-        //     //this.data = data.LevelsData.Village
-        //     this.data;
-        //     console.log(this.data);
-        // }
-
     }
 
     preload(){
@@ -92,6 +84,8 @@ export default class Village extends Phaser.Scene{
         this.bush2 = this.map.createLayer('bush2', this.tileset3);//this is line define a layer of the tiled map
         this.houses1 = this.map.createLayer('houses1', this.tileset2);//same
         this.houses2 = this.map.createLayer('houses2', this.tileset2);//same
+        this.next_level = this.map.createLayer('next_level', this.tileset4);//same
+
         this.physics.world.bounds.width = this.map.widthInPixels;//set the world bound
         this.physics.world.bounds.height = this.map.heightInPixels;
     }
@@ -109,6 +103,7 @@ export default class Village extends Phaser.Scene{
         this.bush1.setVisible(true);
         this.houses1.setVisible(true);
 
+        this.next_level.setCollisionByProperty({ collides: true });//make the layer callable
         this.trees1.setCollisionByProperty({ collides: true });//make the layer callable
         this.houses1.setCollisionByProperty({ collides: true });//make the layer callable
     }
@@ -130,6 +125,7 @@ export default class Village extends Phaser.Scene{
         //this.trees1.setCollisionByProperty({ collides: false });//make the layer callable
 
         //adds collision
+        this.next_level.setCollisionByProperty({ collides: true });//make the layer callable
         this.trees2.setCollisionByProperty({ collides: true });//make the layer callable
         this.houses2.setCollisionByProperty({ collides: true });//make the layer callable
 
@@ -146,7 +142,6 @@ export default class Village extends Phaser.Scene{
     }
 
     spawnEnimes(){
-
         //this.goblins.Spawn(200, 100, 'goblin', 3);
         //this.goblins.Spawn(300, 100, 'goblin', 3);
     }
@@ -157,8 +152,14 @@ export default class Village extends Phaser.Scene{
         // this.physics.add.collider(this.player, this.houses2);
         // this.physics.add.collider(this.player, this.trees1);
         // this.physics.add.collider(this.player, this.trees2);
-        //This function is like a for each
 
+        this.physics.add.collider(this.player, this.next_level, () => {
+            this.events.off('pointerdown');
+            this.events.off('worldbounds');
+            this.scene.start('RoadToVillage');
+        });
+
+        //This function is like a for each
         // Phaser.Actions.Call(this.goblins.getChildren(), (goblin) => {
         //     this.physics.add.collider(goblin, this.houses1);
         //     this.physics.add.collider(goblin, this.houses2);
@@ -228,10 +229,11 @@ export default class Village extends Phaser.Scene{
         }else{
             this.Level2Collisions();
         }
-        // if (this.cursors.space.isDown){
+        if (this.cursors.space.isDown){
         //     this.CollsionLevel = 2;
         //     this.mapLevel2();
         //     this.scene.start('RoadToVillage', {playerData: this.player.data});
-        // }
+            this.scene.start('RoadToVillage');
+        }
     }
 }
