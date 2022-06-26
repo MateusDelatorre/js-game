@@ -11,16 +11,8 @@ export default class Village extends Phaser.Scene{
         super('Village');
     }
 
-    init(data){
+    init(){
         this.storage = JSON.parse(localStorage.getItem("data"));
-        // this.level_data = data;
-        // console.log(data);
-        // if (data.LevelsData.Village != null){
-        //     //this.data = data.LevelsData.Village
-        //     this.data;
-        //     console.log(this.data);
-        // }
-
     }
 
     preload(){
@@ -36,7 +28,6 @@ export default class Village extends Phaser.Scene{
         this.load.spritesheet('arrow', 'assets/weapons/arrow.png', { frameWidth: 21, frameHeight: 7 });
     }
     create(){
-        this.createData();
         this.addMap();
         //this.player.setCollideWorldBounds(true);
         this.mapLevel1();
@@ -56,27 +47,6 @@ export default class Village extends Phaser.Scene{
         //this.scene.run('Level1', this.player);
     }
 
-    createData(){
-        //TODO: this.storage will be checked for null on menu, if it is null here something is not right
-        if (this.storage == null){
-            this.storage = {
-                Village: {},
-                Player: {}
-            };
-            this.storage.Village = {
-                wizardTalk: 0
-            };
-        }else {
-            if(this.storage.Village == null){
-                this.storage.Village = {
-                    wizardTalk: 0
-                };
-            }
-        }
-
-        //if (Object.keys(this.storage.RoadToVillage).length === 0){// || this.storage.RoadToVillage.created == 0
-    }
-
     //This class add a map to the game. Ps.: I don't know what all that code does and now I'm too afraid to ask :0
     addMap() {
         this.map = this.make.tilemap({ key: 'map' });//the key is the key of your json map
@@ -92,6 +62,8 @@ export default class Village extends Phaser.Scene{
         this.bush2 = this.map.createLayer('bush2', this.tileset3);//this is line define a layer of the tiled map
         this.houses1 = this.map.createLayer('houses1', this.tileset2);//same
         this.houses2 = this.map.createLayer('houses2', this.tileset2);//same
+        this.next_level = this.map.createLayer('next_level', this.tileset4);//same
+
         this.physics.world.bounds.width = this.map.widthInPixels;//set the world bound
         this.physics.world.bounds.height = this.map.heightInPixels;
     }
@@ -109,6 +81,7 @@ export default class Village extends Phaser.Scene{
         this.bush1.setVisible(true);
         this.houses1.setVisible(true);
 
+        this.next_level.setCollisionByProperty({ collides: true });//make the layer callable
         this.trees1.setCollisionByProperty({ collides: true });//make the layer callable
         this.houses1.setCollisionByProperty({ collides: true });//make the layer callable
     }
@@ -130,14 +103,15 @@ export default class Village extends Phaser.Scene{
         //this.trees1.setCollisionByProperty({ collides: false });//make the layer callable
 
         //adds collision
+        this.next_level.setCollisionByProperty({ collides: true });//make the layer callable
         this.trees2.setCollisionByProperty({ collides: true });//make the layer callable
         this.houses2.setCollisionByProperty({ collides: true });//make the layer callable
 
     }
 
     createEntites() {
-        this.player = new Player(this, 50, 100, 'player', 0);
-        this.arrows = new Bullets(this, Projectile, 20);
+        this.player = new Player(this, this.storage.Player.spawn_x, this.storage.Player.spawn_y, 'player', 0);
+        this.arrows = new Bullets(this, Projectile, this.storage.Player.damage);
         this.npc = new NPC(this, 200, 200, 'wizzard', 0);
         this.npc.setPushable(false);
         //this.npc.setImmovable(true);
@@ -146,7 +120,6 @@ export default class Village extends Phaser.Scene{
     }
 
     spawnEnimes(){
-
         //this.goblins.Spawn(200, 100, 'goblin', 3);
         //this.goblins.Spawn(300, 100, 'goblin', 3);
     }
@@ -157,8 +130,17 @@ export default class Village extends Phaser.Scene{
         // this.physics.add.collider(this.player, this.houses2);
         // this.physics.add.collider(this.player, this.trees1);
         // this.physics.add.collider(this.player, this.trees2);
-        //This function is like a for each
 
+        this.physics.add.collider(this.player, this.next_level, () => {
+            this.events.off('pointerdown');
+            this.events.off('worldbounds');
+            this.storage.Player.spawn_x = 381;
+            this.storage.Player.spawn_y = 772;
+            localStorage.setItem("data", JSON.stringify(this.storage));
+            this.scene.start('RoadToVillage');
+        });
+
+        //This function is like a for each
         // Phaser.Actions.Call(this.goblins.getChildren(), (goblin) => {
         //     this.physics.add.collider(goblin, this.houses1);
         //     this.physics.add.collider(goblin, this.houses2);
@@ -228,10 +210,13 @@ export default class Village extends Phaser.Scene{
         }else{
             this.Level2Collisions();
         }
-        // if (this.cursors.space.isDown){
+        if (this.cursors.space.isDown){
         //     this.CollsionLevel = 2;
         //     this.mapLevel2();
         //     this.scene.start('RoadToVillage', {playerData: this.player.data});
-        // }
+            //this.scene.start('RoadToVillage');
+            console.log(this.player.x);
+            console.log(this.player.y);
+        }
     }
 }

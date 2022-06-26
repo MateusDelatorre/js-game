@@ -24,4 +24,4 @@ Acessado 2022-04-24
 
 Acessado 2022-04-24
 
-[Open Source Game]([https://youtu.be/hkedWHfU_oQ](https://github.com/tranchikhang/MedievalWar))
+[Open Source Game](https://github.com/tranchikhang/MedievalWar)

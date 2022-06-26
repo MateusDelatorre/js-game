@@ -1,12 +1,10 @@
 export default class Actor extends Phaser.Physics.Arcade.Sprite{
-    data;
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
         //I will say before hand that I don't know if this next two lines must be there
         scene.add.existing(this);//Add this Sprite to the scene
         scene.physics.add.existing(this);//Add this Sprite to the Physics manager of the scene
         this.body.setCollideWorldBounds(true);//make it collider to the end of the map
-        this.data = {};
     }
 
     //This function make things appear on the screen
@@ -24,36 +22,28 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite{
     }
 
     setDamage(damage){
-        this.data.damage = damage;
+        this.damage = damage;
     }
 
     getDamage(){
-        return this.data.damage;
-    }
-
-    getData(){
-        return this.data;
+        return this.damage;
     }
 
     getHP(){
-        return this.data.hp;
+        return this.hp;
     }
 
     setHP(hp){
-        this.data.hp = hp;
-    }
-
-    setData(data){
-        this.data = data;
+        this.hp = hp;
     }
 
     sufferDamage(damage){
-        this.data.hp -= damage;
+        this.hp -= damage;
         if (this.isDead()) this.die();
     }
 
     isDead(){
-        if (this.data.hp < 1) return true;
+        if (this.hp < 1) return true;
         return false;
     }
 

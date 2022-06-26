@@ -26,7 +26,6 @@ export default class RoadToVillage extends Phaser.Scene{
         this.load.spritesheet('arrow', 'assets/weapons/arrow.png', { frameWidth: 21, frameHeight: 7 });
     }
     create(){
-        this.createData();
         this.addMap();
         this.createEntites();
         this.createUI();
@@ -49,31 +48,11 @@ export default class RoadToVillage extends Phaser.Scene{
         if (this.cursors.space.isDown)
         {
             //this.scene.start('Village', {player: this.player});
-            localStorage.setItem("data",  JSON.stringify(this.storage));
-            console.log("Salvando data");
+            // localStorage.setItem("data", JSON.stringify(this.storage));
+            // console.log("Salvando data");
+            //console.log(this.player.x);
+            //console.log(this.player.y);
         }
-    }
-
-    createData(){
-        //TODO: localStorage will be crated on menu screen it shouldn't be null here. Probably redundant check
-        if (this.storage == null){
-            this.storage = {
-                RoadToVillage: {},
-                Player: {}
-            };
-            this.storage.RoadToVillage = {
-                enemiesTotal: 3,
-                enemiesKilled: 0,
-                enemiesAlive: 3,
-                levelCleared: false
-            };
-            let temp = [];
-            for (let i = 0; i < 24; i++){
-                temp.push([i, 1]);
-            }
-            this.storage.RoadToVillage.goblins_alive = temp;
-        }
-        //if (Object.keys(this.storage.RoadToVillage).length === 0){// || this.storage.RoadToVillage.created == 0
     }
 
     SomeoneDied(who){
@@ -86,7 +65,7 @@ export default class RoadToVillage extends Phaser.Scene{
     }
 
     createEntites() {
-        this.player = new Player(this, 50, 400, 'player', 0);
+        this.player = new Player(this, 381, this.map.heightInPixels - 30, 'player', 0);
         this.arrows = new Bullets(this, Projectile, 20);
         this.goblins = new Enemies(this, Goblin);
         this.skeltons = new Enemies(this, Skeleton);
@@ -138,6 +117,14 @@ export default class RoadToVillage extends Phaser.Scene{
             skelton.sufferDamage(arrow.getDamage());
             arrow.die();
         });
+        this.physics.add.collider(this.player, this.next_level, () => {
+            this.events.off('pointerdown');
+            this.events.off('worldbounds');
+            this.storage.Player.spawn_x = 558;
+            this.storage.Player.spawn_y = 29;
+            localStorage.setItem("data", JSON.stringify(this.storage));
+            this.scene.start('Village');
+        });
     }
 
     addMap() {
@@ -147,6 +134,7 @@ export default class RoadToVillage extends Phaser.Scene{
         this.ground = this.map.createLayer('ground', this.tileset);//this is line define a layer of the tiled map
         this.ground1 = this.map.createLayer('ground1', this.tileset);//this is line define a layer of the tiled map
         this.ground2= this.map.createLayer('ground2', [this.tileset, this.tileset2]);//this is line define a layer of the tiled map
+        this.next_level = this.map.createLayer('next_level', this.tileset2);//this is line define a layer of the tiled map
         this.physics.world.bounds.width = this.map.widthInPixels;//set the world bound
         this.physics.world.bounds.height = this.map.heightInPixels;
     }
@@ -162,7 +150,9 @@ export default class RoadToVillage extends Phaser.Scene{
 
     mapLevel1(){
         //set others levels invisible
+        this.next_level.setCollisionByProperty({ collides: true });//make the layer callable
         this.ground2.setVisible(false);
+        this.next_level.setVisible(false);
     }
 
     customEvents(){

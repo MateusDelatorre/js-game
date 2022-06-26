@@ -4,11 +4,17 @@ export default class TitleScreen extends Phaser.Scene{
     constructor(){
         super('TitleScreen');
     }
+
+    init(){
+        this.storage = JSON.parse(localStorage.getItem("data"));
+    }
+
     preload(){
         //Load the custom font
         this.load.spritesheet('menuButton', 'assets/buttons_menu.png', { frameWidth: 300, frameHeight: 50 });
     }
     create(){
+        this.createData();
         //This nexts lines will create the animation effect to be called later on
         this.anims.create({
             key: 'mouseover',//define the name of the animation
@@ -59,6 +65,52 @@ export default class TitleScreen extends Phaser.Scene{
 
     update(){
         
+    }
+
+    createData(){
+        //TODO: this.storage will be checked for null on menu, if it is null here something is not right
+        if (this.storage != null &&
+            this.storage != {} &&
+            this.storage != undefined){
+            if(this.storage.Village != null &&
+                this.storage.Village != {} &&
+                this.storage.Village != undefined){
+                this.storage.Village = {
+                    wizardTalk: 0
+                };
+            }
+        }else {
+            this.storage = {
+                Village: {},
+                Player: {},
+                RoadToVillage: {}
+            };
+            this.storage.Village = {
+                wizardTalk: 0,
+                mapLevel: 1
+            };
+            this.storage.Player = {
+                hp: 100,
+                damage: 20,
+                weapon: "arrow",
+                spawn_x: 50,
+                spawn_y: 100
+            };
+            this.storage.RoadToVillage = {
+                enemiesTotal: 3,
+                enemiesKilled: 0,
+                enemiesAlive: 3,
+                levelCleared: false
+            };
+            let temp = [];
+            for (let i = 0; i < 24; i++){
+                temp.push([i, 1]);
+            }
+            this.storage.RoadToVillage.goblins_alive = temp;
+            localStorage.setItem("data", JSON.stringify(this.storage));
+        }
+
+        //if (Object.keys(this.storage.RoadToVillage).length === 0){// || this.storage.RoadToVillage.created == 0
     }
 }
 //A custom class to make the button used in menu

@@ -5,11 +5,6 @@ export default class Goblin extends Enemy{
         super(scene, x, y, texture, frame);
         this.setHP(100);
         this.AITyipe = 0;
-        this.elem = document.createElement('div');
-        this.elem.addEventListener('panic', function (es) {
-            this.AITyipe = 1;
-            console.log("evento");
-        });
     }
 
     runAI(player){
