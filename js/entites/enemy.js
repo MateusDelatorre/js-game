@@ -12,6 +12,7 @@ export default class Enemy extends Actor{
 
     die(){
         super.die();
+        this.scene.SomeoneDied(this);
     }
 
 }

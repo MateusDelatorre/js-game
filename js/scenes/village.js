@@ -30,8 +30,11 @@ export default class Village extends Phaser.Scene{
     create(){
         this.text = [null, null, null];
         this.addMap();
-        //this.player.setCollideWorldBounds(true);
-        this.mapLevel1();
+        if (this.storage.RoadToVillage.levelCleared)
+            this.mapLevel2();
+        else
+            this.mapLevel1();
+
         this.createEntites();
         this.spawnEnimes();
         this.addCollisions();
@@ -100,6 +103,7 @@ export default class Village extends Phaser.Scene{
         this.trees2.setVisible(false);
         this.bush2.setVisible(false);
         this.houses2.setVisible(false);
+        this.next_level.setVisible(false);
 
         //Set layer visiable
         this.ground1.setVisible(true);
@@ -114,12 +118,13 @@ export default class Village extends Phaser.Scene{
 
     mapLevel2(){
         //set others levels invisible
-        //this.trees1.setVisible(false);
-        //this.bush1.setVisible(false);
-        //this.trees1.destroy();
-        //this.bush1.destroy();
+        this.trees1.setVisible(false);
+        this.bush1.setVisible(false);
 
         //Set layer visiable
+        this.ground1.setVisible(true);
+        this.houses1.setVisible(true);
+
         this.ground2.setVisible(true);
         this.trees2.setVisible(true);
         this.bush2.setVisible(true);

@@ -27,20 +27,48 @@ export default class RoadToVillage extends Phaser.Scene{
     }
     create(){
         this.addMap();
+        if (this.storage.RoadToVillage.levelCleared)
+            this.mapLevel2();
+        else
+            this.mapLevel1();
         this.createEntites();
-        this.createUI();
         this.enemiesSpawn();
         this.addCollisions();
         this.addEvents();
-        this.mapLevel1();
+
 
         this.cursors = this.input.keyboard.createCursorKeys();
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.startFollow(this.player);
-        //this.cameras.main.setSize(this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.roundPixels = true;
-        //this.player.CreateAnims();
-        //this.player.setTexture('player', 1);
+        this.createUI();
+    }
+
+    addMap() {
+        this.map = this.make.tilemap({ key: 'map1' });//the key is the key of your json map
+        this.tileset = this.map.addTilesetImage('mythril-age-A2_Ground', 'mythril-Ground-tile');//the key is the same as the tileset image
+        this.tileset2 = this.map.addTilesetImage('OutdoorCamping', 'OutdoorCamping');//the key is the same as the tileset image
+        this.ground = this.map.createLayer('ground', this.tileset);//this is line define a layer of the tiled map
+        this.ground1 = this.map.createLayer('ground1', this.tileset);//this is line define a layer of the tiled map
+        this.ground2= this.map.createLayer('ground2', [this.tileset, this.tileset2]);//this is line define a layer of the tiled map
+        this.next_level = this.map.createLayer('next_level', this.tileset2);//this is line define a layer of the tiled map
+        this.physics.world.bounds.width = this.map.widthInPixels;//set the world bound
+        this.physics.world.bounds.height = this.map.heightInPixels;
+    }
+
+    mapLevel1(){
+        //set others levels invisible
+        this.next_level.setCollisionByProperty({ collides: true });//make the layer callable
+        this.ground2.setVisible(false);
+        this.next_level.setVisible(false);
+    }
+
+    mapLevel2(){
+        //set others levels invisible
+        this.next_level.setCollisionByProperty({ collides: true });//make the layer callable
+        this.ground1.setVisible(false);
+        this.ground2.setVisible(true);
+        this.next_level.setVisible(false);
     }
 
     update(){
@@ -53,15 +81,7 @@ export default class RoadToVillage extends Phaser.Scene{
             //console.log(this.player.x);
             //console.log(this.player.y);
         }
-    }
 
-    SomeoneDied(who){
-        if (who.name == 'goblin'){
-            this.goblin_alive--;
-            this.test_text.setText(this.storage.RoadToVillage.goblins_alive.length);
-            this.storage.RoadToVillage.goblins_alive[who.index] = [who.index, 0];
-            console.log(who.index);
-        }
     }
 
     createEntites() {
@@ -72,7 +92,7 @@ export default class RoadToVillage extends Phaser.Scene{
     }
 
     createUI() {
-        this.test_text = this.add.text(0, 0, this.storage.RoadToVillage.goblins_alive.length, {
+        this.test_text = this.add.text(0, 0, this.storage.RoadToVillage.enemiesAlive, {
             backgroundColor: '#4287f5',
             padding: {
                 left: 5,
@@ -92,8 +112,7 @@ export default class RoadToVillage extends Phaser.Scene{
         this.GoblinLoopSpawn(18, 700, 50, 2, 60);
         this.GoblinLoopSpawn(20, 720, 50, 4, 20);
 
-        this.skeltons.Spawn(100, 90, 'skelet', 3);
-        this.skeltons.Spawn(700, 90, 'skelet', 3);
+        this.SkeletLoopSpawn(0, 100, 90, 2, 600);
         // this.skeltons.Spawn(80, 90, 'skelet', 3);
         // this.skeltons.Spawn(80, 70, 'skelet', 3);
         // this.skeltons.Spawn(100, 70, 'skelet', 3);
@@ -103,6 +122,14 @@ export default class RoadToVillage extends Phaser.Scene{
         for(let i = 0; i < amount; index++, y += y_increment, i++){
             if(equals(this.storage.RoadToVillage.goblins_alive[index], [index, 1])){
                 this.goblins.Spawn(x, y, 'goblin', 3, index, 'goblin');
+            }
+        }
+    }
+
+    SkeletLoopSpawn(index, x, y, amount, x_increment){
+        for(let i = 0; i < amount; index++, x += x_increment, i++){
+            if(equals(this.storage.RoadToVillage.skelets_alive[index], [index, 1])){
+                this.skeltons.Spawn(x, y, 'skelet', 3, index, 'skelet');
             }
         }
     }
@@ -128,18 +155,6 @@ export default class RoadToVillage extends Phaser.Scene{
         });
     }
 
-    addMap() {
-        this.map = this.make.tilemap({ key: 'map1' });//the key is the key of your json map
-        this.tileset = this.map.addTilesetImage('mythril-age-A2_Ground', 'mythril-Ground-tile');//the key is the same as the tileset image
-        this.tileset2 = this.map.addTilesetImage('OutdoorCamping', 'OutdoorCamping');//the key is the same as the tileset image
-        this.ground = this.map.createLayer('ground', this.tileset);//this is line define a layer of the tiled map
-        this.ground1 = this.map.createLayer('ground1', this.tileset);//this is line define a layer of the tiled map
-        this.ground2= this.map.createLayer('ground2', [this.tileset, this.tileset2]);//this is line define a layer of the tiled map
-        this.next_level = this.map.createLayer('next_level', this.tileset2);//this is line define a layer of the tiled map
-        this.physics.world.bounds.width = this.map.widthInPixels;//set the world bound
-        this.physics.world.bounds.height = this.map.heightInPixels;
-    }
-
     addEvents() {
         this.input.on('pointerdown', (pointer) => {
             this.arrows.fireProjectile(this.player.x, this.player.y, pointer.worldX, pointer.worldY, 'arrow', 0);
@@ -149,14 +164,23 @@ export default class RoadToVillage extends Phaser.Scene{
         });
     }
 
-    mapLevel1(){
-        //set others levels invisible
-        this.next_level.setCollisionByProperty({ collides: true });//make the layer callable
-        this.ground2.setVisible(false);
-        this.next_level.setVisible(false);
-    }
-
-    customEvents(){
-
+    SomeoneDied(who){
+        this.storage.RoadToVillage.enemiesAlive--;
+        this.storage.RoadToVillage.enemiesKilled++;
+        if (who.name == 'goblin'){
+            this.test_text.setText(this.storage.RoadToVillage.goblins_alive.length);
+            this.storage.RoadToVillage.goblins_alive[who.index] = [who.index, 0];
+            console.log(who.index);
+        }
+        if (who.name == 'skelet'){
+            this.test_text.setText(this.storage.RoadToVillage.skelets_alive.length);
+            this.storage.RoadToVillage.skelets_alive[who.index] = [who.index, 0];
+            console.log(who.index);
+        }
+        if (this.storage.RoadToVillage.enemiesAlive == 0){
+            this.storage.RoadToVillage.levelCleared = true;
+            this.storage.Village.wizardTalk = 2;
+        }
+        this.test_text.setText(this.storage.RoadToVillage.enemiesAlive);
     }
 }
