@@ -25,9 +25,15 @@ export default
             },
             {
                 "dialog": "You killed the monsters already?",
-                "response": ["Yes", "Not really"],
-                "consequence": "' -'"
+                "response": ["Maybe", "Not really"]
             },
+            {
+                "dialog": "When you kill they please come back",
+                "response": ["Ok", "I don't have anywhere else to go ;-;"]
+            }
+
+        ],
+        [
             {
                 "dialog": "OMG! You really are the hero our village was awaiting",
                 "response": ["I told you", "I guess so"]

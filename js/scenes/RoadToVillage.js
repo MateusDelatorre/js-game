@@ -122,6 +122,7 @@ export default class RoadToVillage extends Phaser.Scene{
             this.events.off('worldbounds');
             this.storage.Player.spawn_x = 558;
             this.storage.Player.spawn_y = 29;
+            //if (this.)
             localStorage.setItem("data", JSON.stringify(this.storage));
             this.scene.start('Village');
         });
