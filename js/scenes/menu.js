@@ -75,9 +75,7 @@ export default class TitleScreen extends Phaser.Scene{
             if(this.storage.Village != null &&
                 this.storage.Village != {} &&
                 this.storage.Village != undefined){
-                this.storage.Village = {
-                    wizardTalk: 0
-                };
+
             }
         }else {
             this.storage = {
@@ -97,9 +95,9 @@ export default class TitleScreen extends Phaser.Scene{
                 spawn_y: 100
             };
             this.storage.RoadToVillage = {
-                enemiesTotal: 3,
+                enemiesTotal: 26,
                 enemiesKilled: 0,
-                enemiesAlive: 3,
+                enemiesAlive: 26,
                 levelCleared: false
             };
             let temp = [];
@@ -107,8 +105,16 @@ export default class TitleScreen extends Phaser.Scene{
                 temp.push([i, 1]);
             }
             this.storage.RoadToVillage.goblins_alive = temp;
+            temp = [];
+            for (let i = 0; i < 2; i++){
+                temp.push([i, 1]);
+            }
+            this.storage.RoadToVillage.skelets_alive = temp;
             localStorage.setItem("data", JSON.stringify(this.storage));
         }
+        this.storage.Player.spawn_x = 225;
+        this.storage.Player.spawn_y = 180;
+        localStorage.setItem("data", JSON.stringify(this.storage));
 
         //if (Object.keys(this.storage.RoadToVillage).length === 0){// || this.storage.RoadToVillage.created == 0
     }

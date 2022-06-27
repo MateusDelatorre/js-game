@@ -28,9 +28,13 @@ export default class Village extends Phaser.Scene{
         this.load.spritesheet('arrow', 'assets/weapons/arrow.png', { frameWidth: 21, frameHeight: 7 });
     }
     create(){
+        this.text = [null, null, null];
         this.addMap();
-        //this.player.setCollideWorldBounds(true);
-        this.mapLevel1();
+        if (this.storage.RoadToVillage.levelCleared)
+            this.mapLevel2();
+        else
+            this.mapLevel1();
+
         this.createEntites();
         this.spawnEnimes();
         this.addCollisions();
@@ -44,7 +48,32 @@ export default class Village extends Phaser.Scene{
         this.addEvents();
         this.player.setWeapon('arrow');
         this.isTalking = false;
+        this.createText();
         //this.scene.run('Level1', this.player);
+    }
+
+    createText() {
+        this.text[0] = this.add.text(0, 200, "", {
+            backgroundColor: '#4287f5',
+            padding: {
+                left: 5,
+                top: 5
+            },
+            fontSize: 10,
+            wordWrapWidth: {width: 200}
+        }).setVisible(false).setScrollFactor(0);
+        let aux = 0
+        for (let i = 1; i < 3; i++, aux += 40){
+            this.text[i] = this.add.text(0 + aux, 225, "", {
+                backgroundColor: '#4287f5',
+                padding: {
+                    left: 5,
+                    top: 5
+                },
+                fontSize: 10,
+                wordWrapWidth: {width: 200}
+            }).setVisible(false).setScrollFactor(0);
+        }
     }
 
     //This class add a map to the game. Ps.: I don't know what all that code does and now I'm too afraid to ask :0
@@ -74,6 +103,7 @@ export default class Village extends Phaser.Scene{
         this.trees2.setVisible(false);
         this.bush2.setVisible(false);
         this.houses2.setVisible(false);
+        this.next_level.setVisible(false);
 
         //Set layer visiable
         this.ground1.setVisible(true);
@@ -88,12 +118,13 @@ export default class Village extends Phaser.Scene{
 
     mapLevel2(){
         //set others levels invisible
-        //this.trees1.setVisible(false);
-        //this.bush1.setVisible(false);
-        //this.trees1.destroy();
-        //this.bush1.destroy();
+        this.trees1.setVisible(false);
+        this.bush1.setVisible(false);
 
         //Set layer visiable
+        this.ground1.setVisible(true);
+        this.houses1.setVisible(true);
+
         this.ground2.setVisible(true);
         this.trees2.setVisible(true);
         this.bush2.setVisible(true);
@@ -215,8 +246,8 @@ export default class Village extends Phaser.Scene{
         //     this.mapLevel2();
         //     this.scene.start('RoadToVillage', {playerData: this.player.data});
             //this.scene.start('RoadToVillage');
-            console.log(this.player.x);
-            console.log(this.player.y);
+            // console.log(this.player.x);
+            // console.log(this.player.y);
         }
     }
 }
