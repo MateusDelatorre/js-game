@@ -14,10 +14,4 @@ export default class Skeleton extends Enemy{
         //this.scene.physics.moveToObject(this, this.scene.player, 10);
     }
 
-    die(){
-        this.disableBody(true, true);
-        this.body.setVelocityX(0);
-        this.body.setVelocityY(0);
-    }
-
 }

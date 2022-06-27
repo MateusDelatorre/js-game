@@ -95,9 +95,9 @@ export default class TitleScreen extends Phaser.Scene{
                 spawn_y: 100
             };
             this.storage.RoadToVillage = {
-                enemiesTotal: 3,
+                enemiesTotal: 26,
                 enemiesKilled: 0,
-                enemiesAlive: 3,
+                enemiesAlive: 26,
                 levelCleared: false
             };
             let temp = [];

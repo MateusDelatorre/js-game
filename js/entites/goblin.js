@@ -28,9 +28,4 @@ export default class Goblin extends Enemy{
         //this.scene.physics.moveToObject(this, this.scene.player, 10);//make this object move in direction of the other object in the given speed
     }
 
-    die(){
-        super.die();
-        this.scene.SomeoneDied(this);
-    }
-
 }
