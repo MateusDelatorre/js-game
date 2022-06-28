@@ -4,6 +4,7 @@ import Projectile from "../entites/projectile.js";
 import Enemies from "../entites/enemies.js";
 import Goblin from "../entites/goblin.js";
 import Skeleton from "../entites/skeleton.js";
+import Knight from "../entites/npcs/knight.js";
 
 const equals = (a, b) =>
     a.length === b.length &&
@@ -26,13 +27,15 @@ export default class RoadToVillage extends Phaser.Scene{
         this.load.spritesheet('arrow', 'assets/weapons/arrow.png', { frameWidth: 21, frameHeight: 7 });
     }
     create(){
+        this.text = [null, null, null];
         this.addMap();
         if (this.storage.RoadToVillage.levelCleared)
             this.mapLevel2();
-        else
+        else{
+            this.enemiesSpawn();
             this.mapLevel1();
+        }
         this.createEntites();
-        this.enemiesSpawn();
         this.addCollisions();
         this.addEvents();
 
@@ -42,6 +45,32 @@ export default class RoadToVillage extends Phaser.Scene{
         this.cameras.main.startFollow(this.player);
         this.cameras.main.roundPixels = true;
         this.createUI();
+        this.isTalking = false;
+        this.createText();
+    }
+
+    createText() {
+        this.text[0] = this.add.text(0, 200, "", {
+            backgroundColor: '#4287f5',
+            padding: {
+                left: 5,
+                top: 5
+            },
+            fontSize: 10,
+            wordWrapWidth: {width: 200}
+        }).setVisible(false).setScrollFactor(0);
+        let aux = 0
+        for (let i = 1; i < 3; i++, aux += 40){
+            this.text[i] = this.add.text(0 + aux, 225, "", {
+                backgroundColor: '#4287f5',
+                padding: {
+                    left: 5,
+                    top: 5
+                },
+                fontSize: 10,
+                wordWrapWidth: {width: 200}
+            }).setVisible(false).setScrollFactor(0);
+        }
     }
 
     addMap() {
@@ -72,14 +101,10 @@ export default class RoadToVillage extends Phaser.Scene{
     }
 
     update(){
-        this.player.Update();
-        if (this.cursors.space.isDown)
-        {
-            //this.scene.start('Village', {player: this.player});
-            // localStorage.setItem("data", JSON.stringify(this.storage));
-            // console.log("Salvando data");
-            //console.log(this.player.x);
-            //console.log(this.player.y);
+        if (this.isTalking == false){
+            this.player.Update();
+        }else{
+            this.npc.Capturekeys();
         }
 
     }
@@ -89,6 +114,8 @@ export default class RoadToVillage extends Phaser.Scene{
         this.arrows = new Bullets(this, Projectile, 20);
         this.goblins = new Enemies(this, Goblin);
         this.skeltons = new Enemies(this, Skeleton);
+        this.npc = new Knight(this, 200, 200, 'wizzard', 0);
+        this.npc.setPushable(false);
     }
 
     createUI() {
@@ -152,6 +179,9 @@ export default class RoadToVillage extends Phaser.Scene{
             //if (this.)
             localStorage.setItem("data", JSON.stringify(this.storage));
             this.scene.start('Village');
+        });
+        this.physics.add.collider(this.npc, this.player, (npc, player) => {
+            npc.Talk(this);
         });
     }
 
