@@ -31,9 +31,15 @@ export default class RoadToVillage extends Phaser.Scene{
         this.text = [null, null, null];
         this.addMap();
         this.createEntites();
-        if (this.storage.RoadToVillage.levelCleared)
+        if (this.storage.RoadToVillage.levelCleared){
             this.mapLevel2();
-        else{
+            this.isTalking = false;
+            this.createText();
+            this.physics.add.collider(this.npc, this.player, (npc, player) => {
+                npc.Talk(this);
+            });
+        }else{
+            this.npc.setVisible(false);
             this.enemiesSpawn();
             this.mapLevel1();
         }
@@ -46,8 +52,6 @@ export default class RoadToVillage extends Phaser.Scene{
         this.cameras.main.startFollow(this.player);
         this.cameras.main.roundPixels = true;
         this.createUI();
-        this.isTalking = false;
-        this.createText();
     }
 
     createText() {
@@ -176,9 +180,6 @@ export default class RoadToVillage extends Phaser.Scene{
             //if (this.)
             localStorage.setItem("data", JSON.stringify(this.storage));
             this.scene.start('Village');
-        });
-        this.physics.add.collider(this.npc, this.player, (npc, player) => {
-            npc.Talk(this);
         });
     }
 
