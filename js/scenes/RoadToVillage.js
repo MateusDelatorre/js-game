@@ -31,9 +31,9 @@ export default class RoadToVillage extends Phaser.Scene{
         this.text = [null, null, null];
         this.addMap();
         this.createEntites();
+        this.isTalking = false;
         if (this.storage.RoadToVillage.levelCleared){
             this.mapLevel2();
-            this.isTalking = false;
             this.createText();
             this.physics.add.collider(this.npc, this.player, (npc, player) => {
                 npc.Talk(this);
