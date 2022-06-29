@@ -107,7 +107,6 @@ export default class RoadToVillage extends Phaser.Scene{
         }else{
             this.npc.Capturekeys();
         }
-
     }
 
     createEntites() {
@@ -141,9 +140,6 @@ export default class RoadToVillage extends Phaser.Scene{
         this.GoblinLoopSpawn(20, 720, 50, 4, 20);
 
         this.SkeletLoopSpawn(0, 100, 90, 2, 600);
-        // this.skeltons.Spawn(80, 90, 'skelet', 3);
-        // this.skeltons.Spawn(80, 70, 'skelet', 3);
-        // this.skeltons.Spawn(100, 70, 'skelet', 3);
     }
 
     GoblinLoopSpawn(index, x, y, amount, y_increment){

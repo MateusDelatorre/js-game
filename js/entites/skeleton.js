@@ -10,8 +10,6 @@ export default class Skeleton extends Enemy{
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
         this.setVelocity(0);
-
-        //this.scene.physics.moveToObject(this, this.scene.player, 10);
     }
 
 }
