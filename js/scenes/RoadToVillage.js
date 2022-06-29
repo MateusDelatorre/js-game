@@ -30,13 +30,13 @@ export default class RoadToVillage extends Phaser.Scene{
     create(){
         this.text = [null, null, null];
         this.addMap();
+        this.createEntites();
         if (this.storage.RoadToVillage.levelCleared)
             this.mapLevel2();
         else{
             this.enemiesSpawn();
             this.mapLevel1();
         }
-        this.createEntites();
         this.addCollisions();
         this.addEvents();
 
