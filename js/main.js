@@ -1,6 +1,5 @@
 //importing classes(scenes)
 import TitleScreen from "./scenes/menu.js";
-import TestWorld from "./scenes/test.js";
 import Village from "./scenes/village.js";
 import RoadToVillage from "./scenes/RoadToVillage.js";
 
@@ -40,7 +39,6 @@ var config = {
     scene: [
         BootScene,
         TitleScreen,
-        TestWorld,
         Village,
         RoadToVillage
     ]//All the scenes you will use must be here so the Phase Scene Manager can call then
