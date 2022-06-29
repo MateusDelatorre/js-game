@@ -112,8 +112,14 @@ export default class TitleScreen extends Phaser.Scene{
             this.storage.RoadToVillage.skelets_alive = temp;
             localStorage.setItem("data", JSON.stringify(this.storage));
         }
-        this.storage.Player.spawn_x = 225;
-        this.storage.Player.spawn_y = 180;
+        if (this.storage.RoadToVillage.levelCleared){
+            this.storage.Player.spawn_x = 568;
+            this.storage.Player.spawn_y = 378;
+        }else{
+            this.storage.Player.spawn_x = 330;
+            this.storage.Player.spawn_y = 260;
+        }
+
         localStorage.setItem("data", JSON.stringify(this.storage));
 
         //if (Object.keys(this.storage.RoadToVillage).length === 0){// || this.storage.RoadToVillage.created == 0

@@ -143,7 +143,7 @@ export default class Village extends Phaser.Scene{
     createEntites() {
         this.player = new Player(this, this.storage.Player.spawn_x, this.storage.Player.spawn_y, 'player', 0);
         this.arrows = new Bullets(this, Projectile, this.storage.Player.damage);
-        this.npc = new NPC(this, 200, 200, 'wizzard', 0);
+        this.npc = new NPC(this, 375, 248, 'wizzard', 0);
         this.npc.setPushable(false);
         //this.npc.setImmovable(true);
         // this.goblins = new Enemies(this, Goblin);

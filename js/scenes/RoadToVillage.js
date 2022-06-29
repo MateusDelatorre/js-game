@@ -22,6 +22,7 @@ export default class RoadToVillage extends Phaser.Scene{
         this.load.image('mythril-Ground-tile', 'assets/map/mythril-age-A2_Ground.png');
         this.load.image('OutdoorCamping', 'assets/map/OutdoorCamping.gif');
         this.load.spritesheet('player', 'assets/player/texture.png', { frameWidth: 15, frameHeight: 20 });
+        this.load.spritesheet('knight', 'assets/entites/knight.png', { frameWidth: 17, frameHeight: 10 });
         this.load.spritesheet('goblin', 'assets/enemies/goblin.png', { frameWidth: 10, frameHeight: 10 });
         this.load.spritesheet('skelet', 'assets/enemies/skelet.png', { frameWidth: 10, frameHeight: 14 });
         this.load.spritesheet('arrow', 'assets/weapons/arrow.png', { frameWidth: 21, frameHeight: 7 });
@@ -114,7 +115,7 @@ export default class RoadToVillage extends Phaser.Scene{
         this.arrows = new Bullets(this, Projectile, 20);
         this.goblins = new Enemies(this, Goblin);
         this.skeltons = new Enemies(this, Skeleton);
-        this.npc = new Knight(this, 200, 200, 'wizzard', 0);
+        this.npc = new Knight(this, 104, 727, 'knight', 0);
         this.npc.setPushable(false);
     }
 
