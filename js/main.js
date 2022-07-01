@@ -38,8 +38,8 @@ var BootScene = new Phaser.Class({
         // }
         //console.log(data.LevelsData.Village.name);
         //this.scene.start('Village');
-        this.scene.start('RoadToVillage');
-        //this.scene.start('TitleScreen');
+        //this.scene.start('RoadToVillage');
+        this.scene.start('TitleScreen');
     }
 });
 
