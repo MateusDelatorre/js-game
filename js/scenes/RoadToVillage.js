@@ -115,6 +115,7 @@ export default class RoadToVillage extends Phaser.Scene{
         this.player = new Player(this, 381, this.map.heightInPixels - 30, 'player', 0, this.storage.Player.hp,
             this.storage.Player.weapon);
         this.arrows = new Bullets(this, Projectile, this.storage.Player.damage);
+        this.enemy_arrows = new Bullets(this, Projectile, this.storage.Player.damage);
         this.goblins = new Enemies(this, Goblin);
         this.skeltons = new Enemies(this, Skeleton);
         this.npc = new Knight(this, 104, 727, 'knight', 0);
@@ -187,6 +188,13 @@ export default class RoadToVillage extends Phaser.Scene{
             this.test_text.setText(player.getHP());
         });
 
+        this.physics.add.collider(this.player, this.enemy_arrows, (player, arrow) => {
+            player.sufferDamage(arrow.getDamage());
+            player.knockBack(arrow.x, arrow.y);
+            arrow.die();
+            this.test_text.setText(player.getHP());
+        });
+
         this.physics.add.collider(this.player, this.next_level, () => {
             this.events.off('pointerdown');
             this.events.off('worldbounds');
@@ -227,6 +235,6 @@ export default class RoadToVillage extends Phaser.Scene{
             this.storage.RoadToVillage.levelCleared = true;
             this.storage.Village.wizardTalk = 2;
         }
-        this.test_text.setText(this.storage.RoadToVillage.enemiesAlive);
+        //this.test_text.setText(this.storage.RoadToVillage.enemiesAlive);
     }
 }
