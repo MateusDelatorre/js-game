@@ -4,6 +4,7 @@ export default class Goblin extends Enemy{
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
         this.setHP(100);
+        this.setDamage(10);
         this.AITyipe = 0;
     }
 

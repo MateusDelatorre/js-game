@@ -34,6 +34,7 @@ export default class RoadToVillage extends Phaser.Scene{
         if (this.storage.RoadToVillage.levelCleared)
             this.mapLevel2();
         else{
+            this.npc.die();
             this.enemiesSpawn();
             this.mapLevel1();
         }
@@ -103,7 +104,7 @@ export default class RoadToVillage extends Phaser.Scene{
 
     update(){
         if (this.isTalking == false){
-            this.player.Update();
+            this.player.update();
         }else{
             this.npc.Capturekeys();
         }
@@ -111,8 +112,9 @@ export default class RoadToVillage extends Phaser.Scene{
     }
 
     createEntites() {
-        this.player = new Player(this, 381, this.map.heightInPixels - 30, 'player', 0);
-        this.arrows = new Bullets(this, Projectile, 20);
+        this.player = new Player(this, 381, this.map.heightInPixels - 30, 'player', 0, this.storage.Player.hp,
+            this.storage.Player.weapon);
+        this.arrows = new Bullets(this, Projectile, this.storage.Player.damage);
         this.goblins = new Enemies(this, Goblin);
         this.skeltons = new Enemies(this, Skeleton);
         this.npc = new Knight(this, 104, 727, 'knight', 0);
@@ -120,7 +122,7 @@ export default class RoadToVillage extends Phaser.Scene{
     }
 
     createUI() {
-        this.test_text = this.add.text(0, 0, this.storage.RoadToVillage.enemiesAlive, {
+        this.test_text = this.add.text(0, 0, this.storage.Player.hp, {
             backgroundColor: '#4287f5',
             padding: {
                 left: 5,
@@ -172,6 +174,19 @@ export default class RoadToVillage extends Phaser.Scene{
             skelton.sufferDamage(arrow.getDamage());
             arrow.die();
         });
+
+        this.physics.add.collider(this.goblins, this.player, (player, goblin) => {
+            player.sufferDamage(goblin.getDamage());
+            player.knockBack(goblin.x, goblin.y);
+            this.test_text.setText(player.getHP());
+        });
+
+        this.physics.add.collider(this.skeltons, this.player, (player, skelton) => {
+            player.sufferDamage(skelton.getDamage());
+            player.knockBack(skelton.x, skelton.y);
+            this.test_text.setText(player.getHP());
+        });
+
         this.physics.add.collider(this.player, this.next_level, () => {
             this.events.off('pointerdown');
             this.events.off('worldbounds');
@@ -199,14 +214,14 @@ export default class RoadToVillage extends Phaser.Scene{
         this.storage.RoadToVillage.enemiesAlive--;
         this.storage.RoadToVillage.enemiesKilled++;
         if (who.name == 'goblin'){
-            this.test_text.setText(this.storage.RoadToVillage.goblins_alive.length);
+            //this.test_text.setText(this.storage.RoadToVillage.goblins_alive.length);
             this.storage.RoadToVillage.goblins_alive[who.index] = [who.index, 0];
             console.log(who.index);
         }
         if (who.name == 'skelet'){
-            this.test_text.setText(this.storage.RoadToVillage.skelets_alive.length);
+            //this.test_text.setText(this.storage.RoadToVillage.skelets_alive.length);
             this.storage.RoadToVillage.skelets_alive[who.index] = [who.index, 0];
-            console.log(who.index);
+            //console.log(who.index);
         }
         if (this.storage.RoadToVillage.enemiesAlive == 0){
             this.storage.RoadToVillage.levelCleared = true;
