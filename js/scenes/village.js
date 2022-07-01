@@ -231,7 +231,7 @@ export default class Village extends Phaser.Scene{
 
     update(){
         if (this.isTalking == false){
-            this.player.Update();
+            this.player.update();
         }else{
             this.npc.Capturekeys();
         }
