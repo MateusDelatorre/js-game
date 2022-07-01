@@ -40,21 +40,13 @@ export default class Player extends Actor{
     setWeapon(key){
         this.weaponKey = key;
     }
-
     getWeapon(){
         return this.weaponKey;
     }
 
     update(time, delta){
-
         this.Move();
-        // this.Flashlight()
     }
-
-    // Flashlight(){
-    //     this.flashlight.x = this.x;
-    //     this.flashlight.y = this.y;
-    // }
 
     Move(){
         this.body.setVelocity(0);
@@ -87,5 +79,4 @@ export default class Player extends Actor{
         this.x += velocityX;
         this.y += velocityY;
     }
-
 }
