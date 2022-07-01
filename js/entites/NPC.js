@@ -11,14 +11,7 @@ export default class NPC extends Actor{
     }
 
     Talk(scene){
-        //this.graphics = scene.add.graphics({ lineStyle: { width: 2, color: 0x0000aa }, fillStyle: { color: 0x00aa00} })
-        // this.scene.input.keyboard.on('keyup-SPACE', () => {
-        //     this.SelectChoice();
-        // });
         scene.isTalking = true;
-        // console.log(scene.storage.Village.wizardTalk);
-        // console.log(Dialog.dialogues[scene.storage.Village.wizardTalk]);
-        // console.log(this.subTalk);
         this.ShowDialog(Dialog.dialogues[scene.storage.Village.wizardTalk][this.subTalk].dialog);
         if (Dialog.dialogues[scene.storage.Village.wizardTalk][this.subTalk].response != null){
             this.showResponse(Dialog.dialogues[scene.storage.Village.wizardTalk][this.subTalk].response);
@@ -38,12 +31,6 @@ export default class NPC extends Actor{
         }
     }
 
-    NoResponse() {
-        for (let i = 1; i < 3; i++){
-            this.scene.text[i].setVisible(false);
-        }
-    }
-
     drawChoice() {
 
         this.scene.text[this.choice].setStyle({
@@ -53,15 +40,6 @@ export default class NPC extends Actor{
                 top: 5
             }
         });
-        //console.log(this.scene.text[this.choice]);
-        //point[2] = [0, 1];
-        //let x = this.scene.text[this.choice].x;
-        //let y = this.scene.text[this.choice].y;
-        //point[0] = x;
-        //point[1] = (y + this.scene.text[this.choice].width);
-        //let rect = Phaser.Geom.Rectangle.FromPoints(points, rect);
-        //this.graphics.strokeRect(x, y + 30, this.scene.text[this.choice].width + 5, this.scene.text[this.choice].height + 5);
-        //this.graphics.strokeRect(rect);
     }
 
     Capturekeys(){
