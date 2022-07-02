@@ -36,6 +36,7 @@ export default class Village extends Phaser.Scene{
             this.mapLevel1();
 
         this.createEntites();
+        this.spawnEnimes();
         this.addCollisions();
         this.CollsionLevel = 1;
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -48,6 +49,7 @@ export default class Village extends Phaser.Scene{
         this.player.setWeapon('arrow');
         this.isTalking = false;
         this.createText();
+        //this.scene.run('Level1', this.player);
     }
 
     createText() {
@@ -128,6 +130,9 @@ export default class Village extends Phaser.Scene{
         this.bush2.setVisible(true);
         this.houses2.setVisible(true);
 
+        //remove Collision
+        //this.trees1.setCollisionByProperty({ collides: false });//make the layer callable
+
         //adds collision
         this.next_level.setCollisionByProperty({ collides: true });//make the layer callable
         this.trees2.setCollisionByProperty({ collides: true });//make the layer callable
@@ -140,10 +145,23 @@ export default class Village extends Phaser.Scene{
         this.arrows = new Bullets(this, Projectile, this.storage.Player.damage);
         this.npc = new NPC(this, 375, 248, 'wizzard', 0);
         this.npc.setPushable(false);
+        //this.npc.setImmovable(true);
+        // this.goblins = new Enemies(this, Goblin);
+        // this.skeltons = new Enemies(this, Skeleton);
+    }
+
+    spawnEnimes(){
+        //this.goblins.Spawn(200, 100, 'goblin', 3);
+        //this.goblins.Spawn(300, 100, 'goblin', 3);
     }
 
     //Just tell the Phaser Physics with objects will collide and what to do when this happens
     addCollisions(){
+        // this.physics.add.collider(this.player, this.houses1);
+        // this.physics.add.collider(this.player, this.houses2);
+        // this.physics.add.collider(this.player, this.trees1);
+        // this.physics.add.collider(this.player, this.trees2);
+
         this.physics.add.collider(this.player, this.next_level, () => {
             this.events.off('pointerdown');
             this.events.off('worldbounds');
@@ -152,6 +170,31 @@ export default class Village extends Phaser.Scene{
             localStorage.setItem("data", JSON.stringify(this.storage));
             this.scene.start('RoadToVillage');
         });
+
+        //This function is like a for each
+        // Phaser.Actions.Call(this.goblins.getChildren(), (goblin) => {
+        //     this.physics.add.collider(goblin, this.houses1);
+        //     this.physics.add.collider(goblin, this.houses2);
+        //     this.physics.add.collider(goblin, this.trees1);
+        //     this.physics.add.collider(goblin, this.trees2);
+        // });
+        // Phaser.Actions.Call(this.skeltons.getChildren(), (skelton) => {
+        //     this.physics.add.collider(skelton, this.houses1);
+        //     this.physics.add.collider(skelton, this.houses2);
+        //     this.physics.add.collider(skelton, this.trees1);
+        //     this.physics.add.collider(skelton, this.trees2);
+        // });
+
+        // this.physics.add.collider(this.goblins, this.arrows, (goblin, arrow) => {
+        //     goblin.sufferDamage(arrow.getDamage());
+        //     arrow.die();
+        // });
+        //
+        // this.physics.add.collider(this.skeltons, this.arrows, (skelton, arrow) => {
+        //     skelton.sufferDamage(arrow.getDamage());
+        //     arrow.die();
+        // });
+
         this.physics.add.collider(this.npc, this.player, (npc, player) => {
             npc.Talk(this);
         });
@@ -167,7 +210,12 @@ export default class Village extends Phaser.Scene{
     }
 
     Level1Collisions(){
+        // this.physics.world.collide(this.trees1, this.goblins);
+        // this.physics.world.collide(this.trees1, this.skeltons);
         this.physics.world.collide(this.trees1, this.player);
+
+        // this.physics.world.collide(this.houses1, this.goblins);
+        // this.physics.world.collide(this.houses1, this.skeltons);
         this.physics.world.collide(this.houses1, this.player);
     }
 
@@ -192,6 +240,14 @@ export default class Village extends Phaser.Scene{
 
         }else{
             this.Level2Collisions();
+        }
+        if (this.cursors.space.isDown){
+        //     this.CollsionLevel = 2;
+        //     this.mapLevel2();
+        //     this.scene.start('RoadToVillage', {playerData: this.player.data});
+            //this.scene.start('RoadToVillage');
+            // console.log(this.player.x);
+            // console.log(this.player.y);
         }
     }
 }

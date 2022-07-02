@@ -41,6 +41,15 @@ export default class Wizard extends Actor{
                 top: 5
             }
         });
+        //console.log(this.scene.text[this.choice]);
+        //point[2] = [0, 1];
+        //let x = this.scene.text[this.choice].x;
+        //let y = this.scene.text[this.choice].y;
+        //point[0] = x;
+        //point[1] = (y + this.scene.text[this.choice].width);
+        //let rect = Phaser.Geom.Rectangle.FromPoints(points, rect);
+        //this.graphics.strokeRect(x, y + 30, this.scene.text[this.choice].width + 5, this.scene.text[this.choice].height + 5);
+        //this.graphics.strokeRect(rect);
     }
 
     Capturekeys(){

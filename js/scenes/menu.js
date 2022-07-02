@@ -40,11 +40,13 @@ export default class TitleScreen extends Phaser.Scene{
             scene.scene.start('Village');//starts the a scene
         }));
         this.button2 = this.add.existing(new MenuButton(this, 330, 160, function () {
+            //this.scene.start('TestWorld');
         }));
         this.button3 = this.add.existing(new MenuButton(this, 330, 220, function () {
+            //this.scene.start('TestWorld');
         }));
         
-        let add = this.add;
+        var add = this.add;
 
         WebFont.load({
         custom: {
@@ -119,6 +121,8 @@ export default class TitleScreen extends Phaser.Scene{
         }
 
         localStorage.setItem("data", JSON.stringify(this.storage));
+
+        //if (Object.keys(this.storage.RoadToVillage).length === 0){// || this.storage.RoadToVillage.created == 0
     }
 }
 //A custom class to make the button used in menu
@@ -148,5 +152,20 @@ class MenuButton extends Phaser.GameObjects.Sprite {
     preUpdate (time, delta)
     {
         super.preUpdate(time, delta);
+
+        //this.rotation += 0.01;
     }
 }
+
+// function buttonFactory(scene, x, y, texture, frame) {
+//     return {
+//         scene: scene,
+//         x: x,
+//         y: y,
+//         texture: texture,
+//         frame: frame,
+//         preUpdate (time, delta){
+//             super.preUpdate(time, delta);
+//             this.rotation += 0.01;}
+//     }
+// }
