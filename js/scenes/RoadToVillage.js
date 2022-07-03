@@ -233,6 +233,5 @@ export default class RoadToVillage extends Phaser.Scene{
             this.storage.RoadToVillage.levelCleared = true;
             this.storage.Village.wizardTalk = 2;
         }
-        //this.test_text.setText(this.storage.RoadToVillage.enemiesAlive);
     }
 }

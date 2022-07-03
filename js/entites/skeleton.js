@@ -28,7 +28,6 @@ export default class Skeleton extends Enemy{
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
         this.rangedAI(this.scene.player, time);
-        //this.scene.physics.moveToObject(this, this.scene.player, 10);
     }
 
     rangedAI(player, time){

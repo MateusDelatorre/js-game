@@ -32,7 +32,6 @@ export default class Player extends Actor{
         if (this.idle){
             this.anims.play('idle', true);
         }
-        // this.Flashlight()
     }
 
     CaptureKeys(){
@@ -88,9 +87,4 @@ export default class Player extends Actor{
         this.x += velocityX;
         this.y += velocityY;
     }
-
-    // Flashlight(){
-    //     this.flashlight.x = this.x;
-    //     this.flashlight.y = this.y;
-    // }
 }

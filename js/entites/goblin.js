@@ -46,7 +46,6 @@ export default class Goblin extends Enemy{
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
         this.runAI(this.scene.player);
-        //this.scene.physics.moveToObject(this, this.scene.player, 10);//make this object move in direction of the other object in the given speed
     }
 
 }
