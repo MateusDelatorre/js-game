@@ -21,10 +21,10 @@ export default class RoadToVillage extends Phaser.Scene{
         this.load.tilemapTiledJSON('map1', 'assets/map/JsonMap/Level1.json');
         this.load.image('mythril-Ground-tile', 'assets/map/mythril-age-A2_Ground.png');
         this.load.image('OutdoorCamping', 'assets/map/OutdoorCamping.gif');
-        this.load.spritesheet('player', 'assets/player/texture.png', { frameWidth: 15, frameHeight: 20 });
+        this.load.spritesheet('player', 'assets/player/texture.png', { frameWidth: 15, frameHeight: 22 });
         this.load.spritesheet('knight', 'assets/entites/knight.png', { frameWidth: 17, frameHeight: 10 });
-        this.load.spritesheet('goblin', 'assets/enemies/goblin.png', { frameWidth: 10, frameHeight: 10 });
-        this.load.spritesheet('skelet', 'assets/enemies/skelet.png', { frameWidth: 10, frameHeight: 14 });
+        this.load.spritesheet('goblin', 'assets/enemies/goblin.png', { frameWidth: 11, frameHeight: 12 });
+        this.load.spritesheet('skelet', 'assets/enemies/skelet.png', { frameWidth: 10, frameHeight: 16 });
         this.load.spritesheet('arrow', 'assets/weapons/arrow.png', { frameWidth: 21, frameHeight: 7 });
     }
     create(){
@@ -40,8 +40,6 @@ export default class RoadToVillage extends Phaser.Scene{
         }
         this.addCollisions();
         this.addEvents();
-
-
         this.cursors = this.input.keyboard.createCursorKeys();
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.startFollow(this.player);

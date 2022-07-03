@@ -22,7 +22,7 @@ var BootScene = new Phaser.Class({
     },
     create: function (){
         //this.scene.start('WorldScene');
-        //this.scene.start('TitleScreen');
+        //this.scene.start('TitleScreen');10
         //this.scene.start('TestWorld');
         // let data = {
         //
@@ -68,4 +68,4 @@ var config = {
     ]//All the scenes you will use must be here so the Phase Scene Manager can call then
 };
 let game = new Phaser.Game(config);//create a new game
-console.log(config);
+//console.log(config);

@@ -21,7 +21,7 @@ export default class Village extends Phaser.Scene{
         this.load.image('mythril-Ground-tile', 'assets/map/mythril-age-A2_Ground.png');
         this.load.image('mythril-OutSide_Nature-tile', 'assets/map/mythril-age-C_OutSide_Nature.png');
         this.load.tilemapTiledJSON('map', 'assets/map/JsonMap/village.json');
-        this.load.spritesheet('player', 'assets/player/texture.png', { frameWidth: 15, frameHeight: 20 });
+        this.load.spritesheet('player', 'assets/player/texture.png', { frameWidth: 15, frameHeight: 22 });
         this.load.spritesheet('goblin', 'assets/enemies/big-demon.png', { frameWidth: 22, frameHeight: 31 });
         this.load.spritesheet('wizzard', 'assets/entites/wizzard.png', { frameWidth: 17, frameHeight: 10 });
         this.load.spritesheet('skeleton', 'assets/enemies/big-zombie.png', { frameWidth: 22, frameHeight: 31 });

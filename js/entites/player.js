@@ -6,35 +6,69 @@ export default class Player extends Actor{
         this.setHP(hp);
         this.setWeapon(weaponKey);
         //this.flashlight = flashlight;
+        this.CreateAnims();
+        this.anims.play('idle', true);
+        this.idle = true;
     }
 
     CreateAnims(){
         this.anims.create({
-            key: 'test',
+            key: 'idle',
             frameRate: 7,
             frames: this.anims.generateFrameNumbers('player', { start: 0, end: 2}),
             repeat: -1
         });
         // animation with key 'right'
         this.anims.create({
-            key: 'right',
-            frames: this.anims.generateFrameNumbers('player', { frames: [1, 7, 1, 13] }),
+            key: 'move',
+            frames: this.anims.generateFrameNumbers('player', { start: 3, end: 7}),
             frameRate: 10,
             repeat: -1
         });
-        this.anims.create({
-            key: 'up',
-            frames: this.anims.generateFrameNumbers('player', { frames: [2, 8, 2, 14]}),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'down',
-            frames: this.anims.generateFrameNumbers('player', { frames: [ 0, 6, 0, 12 ] }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.play('test', true);
+    }
+
+    update(time, delta){
+        this.CaptureKeys();
+        if (this.idle){
+            this.anims.play('idle', true);
+        }
+        // this.Flashlight()
+    }
+
+    CaptureKeys(){
+        this.body.setVelocity(0);
+        this.idle = true;
+        // Horizontal movement
+        if (this.scene.cursors.left.isDown)
+        {
+            this.MoveX(-this.velocity);
+        }
+        else if (this.scene.cursors.right.isDown)
+        {
+            this.MoveX(this.velocity);
+        }
+        // Vertical movement
+        if (this.scene.cursors.up.isDown)
+        {
+            this.MoveY(-this.velocity);
+        }
+        else if (this.scene.cursors.down.isDown)
+        {
+            this.MoveY(this.velocity)
+        }
+
+    }
+
+    MoveX(module){
+        this.anims.play('move', true);
+        this.body.setVelocityX(module);
+        this.idle = false;
+    }
+
+    MoveY(module){
+        this.anims.play('move', true);
+        this.body.setVelocityY(module);
+        this.idle = false;
     }
 
     setWeapon(key){
@@ -43,39 +77,6 @@ export default class Player extends Actor{
 
     getWeapon(){
         return this.weaponKey;
-    }
-
-    update(time, delta){
-
-        this.Move();
-        // this.Flashlight()
-    }
-
-    // Flashlight(){
-    //     this.flashlight.x = this.x;
-    //     this.flashlight.y = this.y;
-    // }
-
-    Move(){
-        this.body.setVelocity(0);
-        // Horizontal movement
-        if (this.scene.cursors.left.isDown)
-        {
-            this.body.setVelocityX(-this.velocity);
-        }
-        else if (this.scene.cursors.right.isDown)
-        {
-            this.body.setVelocityX(this.velocity);
-        }
-        // Vertical movement
-        if (this.scene.cursors.up.isDown)
-        {
-            this.body.setVelocityY(-this.velocity);
-        }
-        else if (this.scene.cursors.down.isDown)
-        {
-            this.body.setVelocityY(this.velocity);
-        }
     }
 
     knockBack(body_x,body_y){
@@ -88,4 +89,8 @@ export default class Player extends Actor{
         this.y += velocityY;
     }
 
+    // Flashlight(){
+    //     this.flashlight.x = this.x;
+    //     this.flashlight.y = this.y;
+    // }
 }
