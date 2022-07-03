@@ -1,3 +1,4 @@
+//Class to define some basic functions between sprites
 export default class Actor extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
@@ -14,7 +15,7 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite{
         this.setActive(true);
         this.setVisible(true);
     }
-
+    //Makes a sprite stop being visible and remove from physics simulation
     die(){
         this.disableBody(true, true);
         this.body.setVelocityX(0);
@@ -41,7 +42,7 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite{
         this.hp -= damage;
         if (this.isDead()) this.die();
     }
-
+    //Return if the sprite is or is not dead
     isDead(){
         if (this.hp < 1) return true;
         return false;

@@ -21,7 +21,7 @@ var BootScene = new Phaser.Class({
 
 //This object(or at least I think is a object) is going to set some properties to your game
 var config = {
-    mode: 'development',//'production' : 'development'
+    mode: 'production',//'production' : 'development'
     type: Phaser.WEBGL,//set what render engine you will use, the other option is the canvas engine
     parent: 'content',
     width: 670,
@@ -32,7 +32,7 @@ var config = {
         default: 'arcade',//There are two types of physics in Phaser 3, arcade and Matter
         arcade: {
             gravity: { y: 0 },
-            debug: true//This option outlines the body of objects on the physics engine also show its vector
+            debug: false//This option outlines the body of objects on the physics engine also show its vector
         }
     },
     scene: [

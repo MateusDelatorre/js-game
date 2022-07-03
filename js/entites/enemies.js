@@ -1,3 +1,4 @@
+//Class for handle diferent groups of enemies
 export default class Enemies extends Phaser.Physics.Arcade.Group{
     constructor(scene, classType) {
         super(scene.physics.world, scene);

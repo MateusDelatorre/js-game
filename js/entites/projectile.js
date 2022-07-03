@@ -5,7 +5,7 @@ export default class Projectile extends Actor{
     super(scene, x, y, texture, 0);
 
     }
-
+    //Do a bunch of math for the projectile go flying through the skies in the right direction
     fire(playerX, playerY, pointerX, pointerY){
         this.vectorX = pointerX - playerX;
         this.vectorY = pointerY - playerY;

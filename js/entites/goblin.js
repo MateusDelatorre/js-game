@@ -9,7 +9,7 @@ export default class Goblin extends Enemy{
         this.CreateAnims();
         this.anims.play('idle', true);
     }
-
+    //Defines the frames to use to form animations
     CreateAnims(){
         this.anims.create({
             key: 'idle',
@@ -27,9 +27,7 @@ export default class Goblin extends Enemy{
     }
 
     runAI(player){
-        if (this.AITyipe == 0){
-            this.normalAI(player);
-        }
+        this.normalAI(player);
     }
 
     normalAI(player){

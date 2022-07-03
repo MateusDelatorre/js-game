@@ -77,7 +77,7 @@ export default class Player extends Actor{
     getWeapon(){
         return this.weaponKey;
     }
-
+    //Makes the MC tp in the other direction
     knockBack(body_x,body_y){
         this.vectorX = this.x -body_x;
         this.vectorY = this.y - body_y;

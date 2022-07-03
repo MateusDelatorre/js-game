@@ -1,6 +1,6 @@
 import Actor from "./actor.js";
 import Dialog from "../../assets/dialogues/wizzard.js";
-
+//This class is a work in progress. It's supposed to be a mother class for other npc classes, but for now she do only one npc
 export default class NPC extends Actor{
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
@@ -9,34 +9,28 @@ export default class NPC extends Actor{
         this.subTalk = 0;
         this.spaceDown = false;
     }
-
+    //Start the talk process
     Talk(scene){
-        scene.isTalking = true;
+        scene.isTalking = true;//Flag
         this.ShowDialog(Dialog.dialogues[scene.storage.Village.wizardTalk][this.subTalk].dialog);
         if (Dialog.dialogues[scene.storage.Village.wizardTalk][this.subTalk].response != null){
             this.showResponse(Dialog.dialogues[scene.storage.Village.wizardTalk][this.subTalk].response);
         }
         this.drawChoice();
     }
-
+    //Make the dialog visible and define its text
     ShowDialog(txt){
         this.scene.text[0].setVisible(true);
         this.scene.text[0].setText(txt);
     }
-
+    //Shows the choices for the user
     showResponse(response) {
         for (let i = 0; i < response.length; i++){
             this.scene.text[i+1].setVisible(true);
             this.scene.text[i+1].setText(response[i]);
         }
     }
-
-    NoResponse() {
-        for (let i = 1; i < 3; i++){
-            this.scene.text[i].setVisible(false);
-        }
-    }
-
+    //Highlight the text that is up for selection
     drawChoice() {
 
         this.scene.text[this.choice].setStyle({
@@ -47,7 +41,7 @@ export default class NPC extends Actor{
             }
         });
     }
-
+    //Get the keys to use on dialog
     Capturekeys(){
         if (this.scene.cursors.left.isDown) {
             this.changeChoice(-1);
@@ -66,7 +60,7 @@ export default class NPC extends Actor{
 
         }
     }
-
+    //Change the text that is up for selection
     changeChoice(change){
         this.scene.text[this.choice].setStyle({
             backgroundColor: '#4287f5',
@@ -92,7 +86,7 @@ export default class NPC extends Actor{
         }
         this.drawChoice();
     }
-
+    //Select the text that was Highlighted
     SelectChoice() {
         this.subTalk++;
         if(this.subTalk >= Dialog.dialogues[this.scene.storage.Village.wizardTalk].length){

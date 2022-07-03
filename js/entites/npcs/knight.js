@@ -1,7 +1,7 @@
-import NPC from "../NPC.js";
 import Actor from "../actor.js";
 import Dialog from "../../../assets/dialogues/knight.js";
 
+//For more information about this class see https://github.com/MateusDelatorre/js-game/blob/release/js/entites/NPC.js
 export default class Knight extends Actor{
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
